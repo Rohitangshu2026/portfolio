@@ -277,7 +277,8 @@
       justify-content: center;
     }
 
-    /* Center last row logic for grid */
+    /* Center last row logic for grid (ONLY for screens wider than 900px) */
+    @media (min-width: 901px) {
     .projects-grid:has(> :nth-last-child(1):nth-child(3n+1)) > :last-child {
       grid-column: 2;
     }
@@ -287,6 +288,7 @@
     .projects-grid:has(> :nth-last-child(2):nth-child(3n+1)) > :last-child {
       grid-column: 3;
     }
+  }
 
     .muted {
       color: var(--muted);
