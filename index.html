@@ -12,7 +12,9 @@
       --muted: #6b7280;
       --border: #e5e7eb;
       --accent: #2563eb;
+      --accent-light: #3b82f6;
       --accent-soft: #dbeafe;
+      --accent-very-soft: #a1aec3;
     }
 
     [data-theme="dark"] {
@@ -208,6 +210,74 @@
     .skill-block h3 { margin-bottom: .5rem; }
     .skill-block p { margin: 0; font-size: .9rem; }
 
+  /* EDUCATION TIMELINE (dot → line → content → line → dot, centered) */
+.timeline-art {
+  margin: 2.5rem auto 0;
+}
+
+
+.timeline-art-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+position: relative;
+}
+
+
+.timeline-art-dot {
+width: 16px;
+height: 16px;
+background: var(--surface);
+border: 3px solid var(--accent);
+border-radius: 50%;
+}
+
+
+.timeline-art-connector {
+width: 3px;
+height: 28px;
+background: var(--accent);
+opacity: 0.75;
+}
+
+
+.timeline-art-year {
+margin-top: 0.9rem;
+background: var(--accent-soft);
+color: var(--accent);
+font-size: 0.85rem;
+font-weight: 600;
+padding: 0.3rem 0.9rem;
+border-radius: 999px;
+}
+
+
+.timeline-art-content {
+text-align: center;
+margin-top: 0.7rem;
+margin-bottom: 0.7rem;
+}
+
+
+.timeline-art-content h3 {
+font-size: 1.4rem;
+margin-bottom: 0.3rem;
+}
+
+
+.institution {
+font-size: 0.95rem;
+color: var(--muted);
+}
+
+
+.coursework {
+font-size: 0.9rem;
+color: var(--muted);
+font-style: italic;
+max-width: 520px;
+margin: 0.6rem auto 0;
+}
     /* Project cards */
     .project {
       background: var(--surface);
@@ -268,28 +338,99 @@
       transform: translateY(0);
     }
   
-    /* Projects Grid Layout */
     .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(280px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;          /* centers the entire row + leftover items */
       gap: 2rem;
       margin-top: 2rem;
-      justify-content: center;
     }
 
-    /* Center last row logic for grid (ONLY for screens wider than 900px) */
+    .project {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 2rem 2.2rem;
+  margin-top: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+  transition: transform .15s ease, box-shadow .15s ease;
+
+  display: flex;                /* ← add this */
+  flex-direction: column;       /* ← add this */
+  min-height: 380px;            /* ← optional: make all cards same height */
+}
+
+.project ul {
+  margin: 1rem 0 1.5rem;        /* ← optional: more breathing room */
+  flex-grow: 1;                 /* ← makes list take available space */
+}
+
+.github-btn {
+  margin-top: auto;
+  align-self: center;
+  background: var(--accent-light);          /* lighter blue in light mode */
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.github-btn:hover {
+  background: var(--accent);                /* original darker blue on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37,99,235,0.25);
+}
+
+/* Dark mode: keep original accent (or make it even lighter if preferred) */
+[data-theme="dark"] .github-btn {
+  background: var(--accent);                /* #60a5fa - already quite light */
+}
+
+[data-theme="dark"] .github-btn:hover {
+  background: #93c5fd;                      /* even lighter on hover in dark mode */
+  box-shadow: 0 6px 16px rgba(96,165,250,0.35);
+}
+
+.project p:last-child {         /* targets the GitHub link p */
+  margin-top: auto;             /* ← pushes link to bottom */
+  text-align: left;           /* ← optional: center the link */
+  font-weight: 500;
+}
+
+  section {
+  scroll-margin-top: 80px;      /* applied to each section individually */
+}
+    /* Force 3-per-row on wide screens by controlling when it wraps */
     @media (min-width: 901px) {
-    .projects-grid:has(> :nth-last-child(1):nth-child(3n+1)) > :last-child {
-      grid-column: 2;
+      .project {
+        flex: 0 1 calc((100% - 4rem) / 3);   /* 100% minus 2 gaps → exactly 3 per row */
+        max-width: calc((100% - 4rem) / 3);
+      }
     }
-    .projects-grid:has(> :nth-last-child(2):nth-child(3n+1)) > :nth-last-child(2) {
-      grid-column: 2;
-    }
-    .projects-grid:has(> :nth-last-child(2):nth-child(3n+1)) > :last-child {
-      grid-column: 3;
-    }
-  }
 
+    /* Medium screens: allow 2 per row */
+    @media (max-width: 900px) {
+      .project {
+        flex: 0 1 calc((100% - 2rem) / 2);   /* exactly 2 per row */
+        max-width: calc((100% - 2rem) / 2);
+      }
+    }
+
+    /* Small screens: 1 per row */
+    @media (max-width: 600px) {
+      .project {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+    }
     .muted {
       color: var(--muted);
       font-size: .85rem;
@@ -343,6 +484,10 @@
         grid-template-columns: minmax(280px, 1fr);
       }
     }
+    #theme-toggle {
+    min-width: 110px;           /* prevents text jump when switching */
+    text-align: center;
+}
   </style>
 </head>
 <body>
@@ -354,7 +499,7 @@
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
       </div>
-      <button onclick="toggleTheme()">Toggle Dark</button>
+      <button id="theme-toggle" onclick="toggleTheme()">Dark Mode</button>
     </div>
   </header>
 
@@ -417,6 +562,7 @@
 </section>
 
 
+
     <section id="skills" class="reveal">
       <h2 style="text-align:center">Skills</h2>
 
@@ -453,6 +599,39 @@
       </div>
     </section>
 
+
+<section id="education">
+  <h2>Education</h2>
+    <div class="timeline-art">
+    <!-- MTech -->
+      <div class="timeline-art-item">
+      <div class="timeline-art-dot"></div>
+      <div class="timeline-art-connector"></div>
+      <div class="timeline-art-year">2025 – 2027 · Current</div>
+      <div class="timeline-art-content">
+      <h3>MTech in Computer Science & Engineering</h3>
+      <div class="institution">International Institute of Information Technology Bangalore</div>
+      <div class="coursework">
+      Algorithms, Data Modeling, Design Patterns, NoSQL, Software Development, Software Production Engineering, System Software
+      </div>
+      </div>
+      <div class="timeline-art-connector"></div>
+      </div>
+      <!-- BTech -->
+      <div class="timeline-art-item">
+      <div class="timeline-art-dot"></div>
+      <div class="timeline-art-connector"></div>
+      <div class="timeline-art-year">2021 – 2025</div>
+      <div class="timeline-art-content">
+      <h3>BTech in Computer Science & Engineering (AIML)</h3>
+      <div class="institution">Institute of Engineering and Management, Kolkata</div>
+      <div class="coursework">
+      Computer Networks, DBMS, Data Structures & Algorithms, Deep Learning, Machine Learning, OOPS, Operating Systems
+      </div>
+      </div>
+    </section>
+
+
     <section id="projects" class="reveal">
       <h2>Projects</h2>
       <div class="projects-grid">
@@ -466,8 +645,11 @@
             <li>Thread-safe in-memory storage with correctness under concurrent access</li>
             <li>Designed with focus on concurrency, protocol design, and failure safety</li>
           </ul>
+            <a href="  https://github.com/Rohitangshu2026/mini-redis" target="_blank" class="github-btn">
+              View on GitHub
+            </a>
         </div>
-        
+      
         <div class="project">
           <h3>Concurrent Banking Backend</h3>
           <p class="muted">C · POSIX Sockets · File Locking & IPC</p>
@@ -477,6 +659,9 @@
             <li>Semaphore-based concurrency control for safe shared-state access</li>
             <li>Ensures strong integrity guarantees during concurrent reads and writes</li>
           </ul>
+            <a href="https://github.com/Rohitangshu2026/banking-management-system" target="_blank" class="github-btn">
+              View on GitHub
+            </a>
         </div>
 
         <div class="project">
@@ -488,6 +673,22 @@
             <li>Uses <code>lstat()</code> to avoid following symbolic links</li>
             <li>Modular design separating traversal, sorting, and output formatting</li>
           </ul>
+            <a href="https://github.com/Rohitangshu2026/ls-from-scratch" target="_blank" class="github-btn">
+              View on GitHub
+            </a>
+        </div>
+
+        <div class="project">
+          <h3>Academic ERP – Outreach Management Module</h3>
+          <p class="muted">Java (Spring Boot) · TypeScript · Maven · Enterprise ERP</p>
+          <ul>
+            <li>Academic ERP Outreach module: org registration + HR rep management</li>
+            <li>Secure Java/Spring Boot APIs + TypeScript frontend</li>
+            <li>Modular architecture, validation, entity relationships</li>
+          </ul>
+            <a href="https://github.com/Rohitangshu2026/academic-erp-outreach-management" target="_blank" class="github-btn">
+              View on GitHub
+            </a>
         </div>
 
         
@@ -501,6 +702,9 @@
             <li>Clean separation between input processing and pattern matching logic</li>
             <li>Built to understand edge cases in real-world text search tools</li>
           </ul>
+            <a href="https://github.com/Rohitangshu2026/grep-from-scratch" target="_blank" class="github-btn">
+              View on GitHub
+            </a>
         </div>
 
       </div>
@@ -513,7 +717,7 @@
         <p>
           📧 <a href="mailto:rbose2002@gmail.com">rbose2002@gmail.com</a>
           &nbsp;&nbsp;|&nbsp;&nbsp;
-          📞 <a href="tel:+91-8792870926">+91-&nbsp;8792870926</a>
+          📞 <a href="tel:+91-8792870926">+91-8792870926</a>
         </p>
       </div>
     </section>
@@ -521,8 +725,22 @@
 
   <script>
     function toggleTheme() {
-      document.body.dataset.theme = document.body.dataset.theme === 'dark' ? '' : 'dark';
+      const body = document.body;
+      const isDark = body.dataset.theme === 'dark';
+      
+      body.dataset.theme = isDark ? '' : 'dark';
+      
+      // Update button text
+      const btn = document.getElementById('theme-toggle');
+      btn.textContent = isDark ? 'Dark Mode' : 'Light Mode';
     }
+
+    // Set initial button text based on current theme
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('theme-toggle');
+        const isDark = document.body.dataset.theme === 'dark';
+        btn.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+      });
       
     // Scroll reveal logic
     const reveals = document.querySelectorAll('.reveal');
