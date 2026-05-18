@@ -396,6 +396,9 @@
     }
 
     .timeline-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       position: relative;
       padding: 1rem 0 2.5rem;
       text-align: center;
@@ -403,13 +406,22 @@
 
     .timeline-item:last-child { padding-bottom: 0; }
 
+    /* Mask the vertical line behind text so it doesn't show through */
+    .timeline-item > *:not(.timeline-dot) {
+      position: relative;
+      z-index: 1;
+      background: var(--bg);
+      padding: 0 0.8rem;
+      max-width: 100%;
+    }
+
     .timeline-dot {
       width: 11px;
       height: 11px;
       background: var(--bg);
       border: 2px solid var(--accent);
       border-radius: 50%;
-      margin: 0 auto 1.2rem;
+      margin: 0 0 1.2rem;
       position: relative;
       z-index: 1;
     }
@@ -814,30 +826,6 @@
           <div class="project-num">01</div>
           <div class="project-body">
             <div class="project-head">
-              <h3>AI DevOps Copilot</h3>
-              <span class="project-year">2025 · ONGOING</span>
-            </div>
-            <div class="project-chips">
-              <span class="chip">FastAPI</span>
-              <span class="chip">Kubernetes</span>
-              <span class="chip">LLM Agents</span>
-              <span class="chip">Elasticsearch</span>
-              <span class="chip">GitLab CI</span>
-              <span class="chip">Vault</span>
-            </div>
-            <p class="project-desc">
-              A multi-provider LLM agentic platform that monitors logs, reasons about failures, and executes remediation through a nine-gate deterministic safety pipeline — anomaly detection, causality, policy, idempotency, rate limiting. Watches Kubernetes events (OOMKilled, CrashLoopBackOff) and dispatches analysis with HMAC-signed human approval for high-impact actions.
-            </p>
-            <a href="https://github.com/Rohitangshu2026/ai-devops-copilot" target="_blank" rel="noopener" class="project-link">
-              View on GitHub <span class="arrow">→</span>
-            </a>
-          </div>
-        </article>
-
-        <article class="project">
-          <div class="project-num">02</div>
-          <div class="project-body">
-            <div class="project-head">
               <h3>Redis-Style In-Memory KV Store</h3>
               <span class="project-year">ONGOING</span>
             </div>
@@ -857,11 +845,11 @@
         </article>
 
         <article class="project">
-          <div class="project-num">03</div>
+          <div class="project-num">02</div>
           <div class="project-body">
             <div class="project-head">
               <h3>Data Pipeline Framework</h3>
-              <span class="project-year">2024</span>
+              <span class="project-year">2026</span>
             </div>
             <div class="project-chips">
               <span class="chip">Java</span>
@@ -879,11 +867,11 @@
         </article>
 
         <article class="project">
-          <div class="project-num">04</div>
+          <div class="project-num">03</div>
           <div class="project-body">
             <div class="project-head">
               <h3>NASA Log ETL Framework</h3>
-              <span class="project-year">2025</span>
+              <span class="project-year">2026</span>
             </div>
             <div class="project-chips">
               <span class="chip">Java</span>
@@ -904,11 +892,35 @@
         </article>
 
         <article class="project">
+          <div class="project-num">04</div>
+          <div class="project-body">
+            <div class="project-head">
+              <h3>AI DevOps Copilot</h3>
+              <span class="project-year">2026</span>
+            </div>
+            <div class="project-chips">
+              <span class="chip">FastAPI</span>
+              <span class="chip">Kubernetes</span>
+              <span class="chip">LLM Agents</span>
+              <span class="chip">Elasticsearch</span>
+              <span class="chip">GitLab CI</span>
+              <span class="chip">Vault</span>
+            </div>
+            <p class="project-desc">
+              A multi-provider LLM agentic platform that monitors logs, reasons about failures, and executes remediation through a nine-gate deterministic safety pipeline — anomaly detection, causality, policy, idempotency, rate limiting. Watches Kubernetes events (OOMKilled, CrashLoopBackOff) and dispatches analysis with HMAC-signed human approval for high-impact actions.
+            </p>
+            <a href="https://github.com/Rohitangshu2026/ai-devops-copilot" target="_blank" rel="noopener" class="project-link">
+              View on GitHub <span class="arrow">→</span>
+            </a>
+          </div>
+        </article>
+
+        <article class="project">
           <div class="project-num">05</div>
           <div class="project-body">
             <div class="project-head">
               <h3>End-to-End CI/CD Pipeline</h3>
-              <span class="project-year">2024</span>
+              <span class="project-year">2026</span>
             </div>
             <div class="project-chips">
               <span class="chip">Java</span>
@@ -931,7 +943,7 @@
           <div class="project-body">
             <div class="project-head">
               <h3>Concurrent Banking Backend</h3>
-              <span class="project-year">2023</span>
+              <span class="project-year">2025</span>
             </div>
             <div class="project-chips">
               <span class="chip">C</span>
@@ -953,7 +965,7 @@
           <div class="project-body">
             <div class="project-head">
               <h3>Academic ERP — Outreach Module</h3>
-              <span class="project-year">2024</span>
+              <span class="project-year">2025</span>
             </div>
             <div class="project-chips">
               <span class="chip">Java</span>
@@ -975,7 +987,7 @@
           <div class="project-body">
             <div class="project-head">
               <h3>POSIX-Compliant <span class="mono" style="font-size:0.85em">ls</span> Utility</h3>
-              <span class="project-year">2023</span>
+              <span class="project-year">2026</span>
             </div>
             <div class="project-chips">
               <span class="chip">C</span>
@@ -996,7 +1008,7 @@
           <div class="project-body">
             <div class="project-head">
               <h3>Pattern Matching Engine</h3>
-              <span class="project-year">ONGOING</span>
+              <span class="project-year">2026</span>
             </div>
             <div class="project-chips">
               <span class="chip">C</span>
