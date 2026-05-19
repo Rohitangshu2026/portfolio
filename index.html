@@ -11,28 +11,112 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
+    /* Default — warm cream (classic, elegant, warm) */
     :root {
-      --bg:          #f5f1ea;
-      --surface:     #fbf7f0;
-      --surface-2:   #efe9de;
-      --text:        #1a1614;
-      --muted:       #6a615a;
-      --border:      #d9d2c5;
-      --hairline:    #c9c0af;
-      --accent:      #8b5e34;
-      --accent-soft: rgba(139, 94, 52, 0.08);
+      --bg:                #f5f1ea;
+      --surface:           #fbf7f0;
+      --surface-2:         #efe9de;
+      --text:              #1a1614;
+      --muted:             #6a615a;
+      --border:            #d9d2c5;
+      --hairline:          #c9c0af;
+      --accent:            #8b5e34;
+      --accent-soft:       rgba(139, 94, 52, 0.08);
+      --photo-shadow:      0 30px 60px -25px rgba(26, 22, 20, 0.25);
+      --pulse:             #2f9e62;
+      --pulse-ring:        rgba(47, 158, 98, 0.35);
+      --icon-filter:       none;
+      --skill-icon-bright: 0.85;
     }
 
+    /* Warm dark */
     [data-theme="dark"] {
-      --bg:          #0f0e0c;
-      --surface:     #16140f;
-      --surface-2:   #1d1a14;
-      --text:        #ece5d6;
-      --muted:       #9a8f80;
-      --border:      #2a2520;
-      --hairline:    #3a342c;
-      --accent:      #d4a574;
-      --accent-soft: rgba(212, 165, 116, 0.10);
+      --bg:                #0f0e0c;
+      --surface:           #16140f;
+      --surface-2:         #1d1a14;
+      --text:              #ece5d6;
+      --muted:             #9a8f80;
+      --border:            #2a2520;
+      --hairline:          #3a342c;
+      --accent:            #d4a574;
+      --accent-soft:       rgba(212, 165, 116, 0.10);
+      --photo-shadow:      0 30px 60px -25px rgba(0, 0, 0, 0.7);
+      --pulse:             #5ce087;
+      --pulse-ring:        rgba(92, 224, 135, 0.30);
+      --icon-filter:       invert(1) brightness(1.05);
+      --skill-icon-bright: 1.6;
+    }
+
+    /* Morning — cool airy fresh (05:00–10:59) */
+    [data-theme="morning"] {
+      --bg:                #eef2f7;
+      --surface:           #f6f9fc;
+      --surface-2:         #e1e8f0;
+      --text:              #1f2a3a;
+      --muted:             #5e6c7e;
+      --border:            #d4dce6;
+      --hairline:          #bcc7d4;
+      --accent:            #4a7da8;
+      --accent-soft:       rgba(74, 125, 168, 0.10);
+      --photo-shadow:      0 30px 60px -25px rgba(74, 125, 168, 0.30);
+      --pulse:             #4a90a0;
+      --pulse-ring:        rgba(74, 144, 160, 0.30);
+      --icon-filter:       none;
+      --skill-icon-bright: 0.85;
+    }
+
+    /* Day — bright crisp neutral (11:00–16:59) */
+    [data-theme="day"] {
+      --bg:                #f6f5f1;
+      --surface:           #fdfcf8;
+      --surface-2:         #ebeae4;
+      --text:              #15181d;
+      --muted:             #5e6470;
+      --border:            #dad9d3;
+      --hairline:          #c0bfb9;
+      --accent:            #486a8e;
+      --accent-soft:       rgba(72, 106, 142, 0.08);
+      --photo-shadow:      0 30px 60px -25px rgba(20, 24, 30, 0.22);
+      --pulse:             #2f9e62;
+      --pulse-ring:        rgba(47, 158, 98, 0.30);
+      --icon-filter:       none;
+      --skill-icon-bright: 0.85;
+    }
+
+    /* Golden hour — warm amber rich (17:00–19:59) */
+    [data-theme="golden"] {
+      --bg:                #fdf1d8;
+      --surface:           #fff9eb;
+      --surface-2:         #f4e2bc;
+      --text:              #3a230f;
+      --muted:             #7a5a3f;
+      --border:            #e7d2a8;
+      --hairline:          #d4ba85;
+      --accent:            #c47028;
+      --accent-soft:       rgba(196, 112, 40, 0.10);
+      --photo-shadow:      0 30px 60px -25px rgba(196, 112, 40, 0.30);
+      --pulse:             #c47028;
+      --pulse-ring:        rgba(196, 112, 40, 0.30);
+      --icon-filter:       none;
+      --skill-icon-bright: 0.85;
+    }
+
+    /* Night — deep indigo (20:00–04:59) */
+    [data-theme="night"] {
+      --bg:                #0a0f1c;
+      --surface:           #111726;
+      --surface-2:         #1a2236;
+      --text:              #e8e6ed;
+      --muted:             #8b8ba0;
+      --border:            #232a3d;
+      --hairline:          #2f374e;
+      --accent:            #a89cd9;
+      --accent-soft:       rgba(168, 156, 217, 0.10);
+      --photo-shadow:      0 30px 60px -25px rgba(0, 0, 0, 0.7);
+      --pulse:             #a89cd9;
+      --pulse-ring:        rgba(168, 156, 217, 0.30);
+      --icon-filter:       invert(1) brightness(1.05);
+      --skill-icon-bright: 1.6;
     }
 
     * { box-sizing: border-box; }
@@ -82,14 +166,11 @@
       position: sticky;
       top: 0;
       z-index: 20;
-      background: rgba(245, 241, 234, 0.78);
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
-    }
-
-    [data-theme="dark"] header {
-      background: rgba(15, 14, 12, 0.78);
+      transition: background .35s ease, border-color .35s ease;
     }
 
     .nav {
@@ -142,9 +223,14 @@
 
     #theme-toggle:hover { color: var(--text); border-color: var(--hairline); }
     #theme-toggle svg { width: 16px; height: 16px; }
-    .icon-sun  { display: none; }
-    [data-theme="dark"] .icon-moon { display: none; }
-    [data-theme="dark"] .icon-sun  { display: block; }
+
+    /* Mode icons — show the icon for the CURRENT mode */
+    .icon-mode-light,
+    .icon-mode-dark,
+    .icon-mode-auto { display: none; }
+    body[data-mode="light"] .icon-mode-light { display: block; }
+    body[data-mode="dark"]  .icon-mode-dark  { display: block; }
+    body[data-mode="auto"]  .icon-mode-auto  { display: block; }
 
     /* Container */
     .container {
@@ -259,13 +345,10 @@
       user-select: none;
     }
 
-    [data-theme="dark"] .hero-links img[src*="github"] {
-      filter: invert(1) brightness(1.05);
-    }
-
-    [data-theme="dark"] .hero-links img[src*="LeetCode"],
-    [data-theme="dark"] .hero-links img[src*="leetcode"] {
-      filter: invert(1) brightness(1.05);
+    .hero-links img[src*="github"],
+    .hero-links img[src*="LeetCode"],
+    .hero-links img[src*="leetcode"] {
+      filter: var(--icon-filter);
     }
 
     .hero-photo img {
@@ -275,11 +358,8 @@
       border-radius: 50%;
       border: 1px solid var(--border);
       background: var(--surface);
-      box-shadow: 0 30px 60px -25px rgba(26, 22, 20, 0.25);
-    }
-
-    [data-theme="dark"] .hero-photo img {
-      box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.7);
+      box-shadow: var(--photo-shadow);
+      transition: box-shadow .35s ease, border-color .35s ease;
     }
 
     /* Section title decoration */
@@ -340,13 +420,9 @@
     .skill-cell img {
       width: 28px;
       height: 28px;
-      opacity: 0.7;
-      filter: grayscale(1) brightness(0.85);
-    }
-
-    [data-theme="dark"] .skill-cell img {
-      filter: grayscale(1) brightness(1.6);
-      opacity: 0.85;
+      opacity: 0.78;
+      filter: grayscale(1) brightness(var(--skill-icon-bright));
+      transition: filter .35s ease;
     }
 
     .skill-cell h3 {
@@ -762,19 +838,18 @@
       position: relative;
       width: 7px; height: 7px;
       border-radius: 50%;
-      background: #2f9e62;
+      background: var(--pulse);
       flex-shrink: 0;
+      transition: background .35s ease;
     }
     .available .pulse::after {
       content: '';
       position: absolute;
       inset: -3px;
       border-radius: 50%;
-      background: rgba(47, 158, 98, 0.35);
+      background: var(--pulse-ring);
       animation: pulseRing 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
-    [data-theme="dark"] .available .pulse { background: #5ce087; }
-    [data-theme="dark"] .available .pulse::after { background: rgba(92, 224, 135, 0.3); }
 
     @keyframes pulseRing {
       0%   { transform: scale(0.8); opacity: 0.9; }
@@ -858,13 +933,17 @@
         <a href="#projects" data-section="projects">Projects</a>
         <a href="#contact" data-section="contact">Contact</a>
         <span class="nav-clock" id="nav-clock" aria-label="Bangalore time">BLR · --:--</span>
-        <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <button id="theme-toggle" onclick="cycleMode()" aria-label="Cycle theme" title="Light · Dark · Auto">
+          <svg class="icon-mode-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="4"/>
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-mode-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-mode-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 7v5l3 2"/>
           </svg>
         </button>
       </div>
@@ -1246,17 +1325,49 @@
   </main>
 
   <script>
-    function toggleTheme() {
-      const isDark = document.body.dataset.theme === 'dark';
-      document.body.dataset.theme = isDark ? '' : 'dark';
-      try { localStorage.setItem('theme', isDark ? 'light' : 'dark'); } catch (e) {}
+    /* ---------- Theme mode (light · dark · auto) ---------- */
+    const MODES = ['light', 'dark', 'auto'];
+
+    function getPeriod(date) {
+      // Resolve current IST hour for time-of-day buckets
+      const istHour = parseInt(new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Kolkata', hour: '2-digit', hour12: false
+      }).format(date), 10);
+      if (istHour >= 5  && istHour < 11) return 'morning';
+      if (istHour >= 11 && istHour < 17) return 'day';
+      if (istHour >= 17 && istHour < 20) return 'golden';
+      return 'night';
+    }
+
+    function resolvedTheme(mode) {
+      if (mode === 'dark')  return 'dark';
+      if (mode === 'auto')  return getPeriod(new Date());
+      return ''; // light (default warm cream)
+    }
+
+    function applyMode(mode) {
+      document.body.dataset.mode = mode;
+      const theme = resolvedTheme(mode);
+      if (theme) document.body.dataset.theme = theme;
+      else delete document.body.dataset.theme;
+      try { localStorage.setItem('mode', mode); } catch (e) {}
+      if (typeof window.refreshNavClock === 'function') window.refreshNavClock();
+    }
+
+    function cycleMode() {
+      const current = document.body.dataset.mode || 'light';
+      const next = MODES[(MODES.indexOf(current) + 1) % MODES.length];
+      applyMode(next);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      let savedMode = 'light';
       try {
-        const saved = localStorage.getItem('theme');
-        if (saved === 'dark') document.body.dataset.theme = 'dark';
+        const saved = localStorage.getItem('mode');
+        if (saved && MODES.includes(saved)) savedMode = saved;
+        else if (localStorage.getItem('theme') === 'dark') savedMode = 'dark'; // back-compat
       } catch (e) {}
+      applyMode(savedMode);
 
       document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -1289,7 +1400,7 @@
       updateProgress();
       window.addEventListener('scroll', updateProgress, { passive: true });
 
-      /* ---------- 3. Live Bangalore clock (IST) ---------- */
+      /* ---------- 3. Live Bangalore clock + period (IST) ---------- */
       const clockEl = document.getElementById('nav-clock');
       const fmt = new Intl.DateTimeFormat('en-GB', {
         timeZone: 'Asia/Kolkata',
@@ -1297,11 +1408,27 @@
         minute: '2-digit',
         hour12: false
       });
-      const tickClock = () => {
-        clockEl.textContent = 'BLR · ' + fmt.format(new Date()) + ' IST';
+      const PERIOD_LABEL = {
+        morning: 'Morning', day: 'Day', golden: 'Golden hour', night: 'Night'
       };
+      const tickClock = () => {
+        const now = new Date();
+        let label = 'BLR · ' + fmt.format(now) + ' IST';
+        if (document.body.dataset.mode === 'auto') {
+          label += ' · ' + PERIOD_LABEL[getPeriod(now)];
+        }
+        clockEl.textContent = label;
+      };
+      window.refreshNavClock = tickClock;
       tickClock();
-      setInterval(tickClock, 30 * 1000);
+      setInterval(() => {
+        // If auto mode, also re-resolve the theme in case the hour just rolled
+        if (document.body.dataset.mode === 'auto') {
+          const next = getPeriod(new Date());
+          if (document.body.dataset.theme !== next) document.body.dataset.theme = next;
+        }
+        tickClock();
+      }, 30 * 1000);
 
       /* ---------- 4. Active section highlighting ---------- */
       const navLinks = document.querySelectorAll('.nav-links a[data-section]');
