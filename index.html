@@ -239,6 +239,7 @@
 
     /* Dynamic pill toggle */
     .dynamic-toggle {
+      position: relative;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.62rem;
       letter-spacing: 0.16em;
@@ -254,6 +255,74 @@
       align-items: center;
       gap: 0.5rem;
     }
+
+    /* Custom tooltip on hover/focus */
+    .dt-tooltip {
+      position: absolute;
+      top: calc(100% + 12px);
+      right: 0;
+      width: 280px;
+      padding: 0.85rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 18px 40px -14px rgba(26, 22, 20, 0.22);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+      line-height: 1.55;
+      color: var(--muted);
+      text-align: left;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-4px);
+      transition: opacity .25s ease, transform .25s ease, visibility .25s;
+      z-index: 25;
+    }
+
+    .dt-tooltip::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      right: 22px;
+      width: 9px;
+      height: 9px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      transform: rotate(45deg);
+    }
+
+    .dynamic-toggle:hover .dt-tooltip,
+    .dynamic-toggle:focus-visible .dt-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dt-tooltip strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .dt-tooltip-grid {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 0.32rem 0.85rem;
+      margin-top: 0.7rem;
+      padding-top: 0.7rem;
+      border-top: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--muted);
+    }
+
+    .dt-tooltip-grid .when { color: var(--accent); }
 
     .dynamic-toggle::before {
       content: '';
@@ -986,8 +1055,17 @@
         <a href="#projects" data-section="projects">Projects</a>
         <a href="#contact" data-section="contact">Contact</a>
         <span class="nav-clock" id="nav-clock" aria-label="Bangalore time">BLR · --:--</span>
-        <button class="dynamic-toggle" id="dynamic-toggle" onclick="toggleDynamic()" aria-pressed="false" title="Reflect the time of day in the palette">
+        <button class="dynamic-toggle" id="dynamic-toggle" onclick="toggleDynamic()" aria-pressed="false" aria-describedby="dt-tooltip">
           <span class="dt-label">Dynamic</span>
+          <span class="dt-tooltip" id="dt-tooltip" role="tooltip">
+            <strong>Dynamic palette.</strong> The colour scheme shifts with the time of day in Bangalore — softer in the morning, crisper at midday, amber near sunset, indigo at night.
+            <span class="dt-tooltip-grid">
+              <span class="when">05 — 11</span><span>Morning · cool airy</span>
+              <span class="when">11 — 17</span><span>Day · crisp neutral</span>
+              <span class="when">17 — 20</span><span>Golden · warm amber</span>
+              <span class="when">20 — 05</span><span>Night · deep indigo</span>
+            </span>
+          </span>
         </button>
         <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark theme">
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
