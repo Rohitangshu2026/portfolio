@@ -670,17 +670,194 @@
       .container { padding: 3rem 1.2rem 4rem; }
       h2 { font-size: 1.9rem; }
     }
+
+    /* ==========================================================
+       Dynamic & interactive layers
+       ========================================================== */
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--text));
+      z-index: 30;
+      transition: width .08s linear;
+      pointer-events: none;
+    }
+
+    /* Live nav clock */
+    .nav-clock {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      padding: 0 0.4rem 0 0.6rem;
+      border-left: 1px solid var(--border);
+    }
+
+    .nav-clock::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    @media (max-width: 760px) {
+      .nav-clock { display: none; }
+    }
+
+    /* Active nav link */
+    .nav-links a.is-active {
+      color: var(--text);
+    }
+    .nav-links a {
+      position: relative;
+      padding-bottom: 4px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 50%; bottom: 0;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0;
+      transition: right .3s ease, opacity .3s ease;
+    }
+    .nav-links a.is-active::after {
+      right: 0;
+      opacity: 1;
+    }
+
+    /* Hero — available badge with pulsing dot */
+    .hero { position: relative; overflow: hidden; isolation: isolate; }
+    .hero > .hero-inner,
+    .hero > .hero-photo { position: relative; z-index: 2; }
+
+    .available {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.4rem 0.95rem 0.4rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      margin-bottom: 1.5rem;
+      transition: border-color .2s ease, color .2s ease;
+    }
+
+    .available:hover { color: var(--text); border-color: var(--hairline); }
+
+    .available .pulse {
+      position: relative;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #2f9e62;
+      flex-shrink: 0;
+    }
+    .available .pulse::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: rgba(47, 158, 98, 0.35);
+      animation: pulseRing 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    [data-theme="dark"] .available .pulse { background: #5ce087; }
+    [data-theme="dark"] .available .pulse::after { background: rgba(92, 224, 135, 0.3); }
+
+    @keyframes pulseRing {
+      0%   { transform: scale(0.8); opacity: 0.9; }
+      80%  { transform: scale(2.2); opacity: 0; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    /* Hero cursor spotlight */
+    .hero-spotlight {
+      position: absolute;
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-soft) 0%, transparent 65%);
+      pointer-events: none;
+      transform: translate3d(-50%, -50%, 0);
+      opacity: 0;
+      transition: opacity .5s ease;
+      z-index: 1;
+      will-change: transform;
+    }
+
+    .hero:hover .hero-spotlight { opacity: 1; }
+
+    /* Hero name letter reveal */
+    .hero h1 .letter {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(28px);
+      animation: revealLetter .7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    }
+
+    @keyframes revealLetter {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero photo subtle float */
+    @keyframes floatPhoto {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .hero-photo img {
+      animation: floatPhoto 7s ease-in-out infinite;
+    }
+
+    /* Refined project hover — title slides + arrow pulls */
+    .project { transition: background .35s ease; }
+    .project h3 {
+      transition: color .25s ease, transform .35s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .project:hover h3 { transform: translateX(6px); }
+    .project .project-num { transition: color .3s ease; }
+    .project:hover .project-num { color: var(--accent); }
+
+    /* Skill cell hover */
+    .skill-cell {
+      transition: background .3s ease;
+      cursor: default;
+    }
+    .skill-cell:hover { background: var(--accent-soft); }
+    .skill-cell img { transition: opacity .3s ease, transform .4s ease; }
+    .skill-cell:hover img { opacity: 1; transform: translateY(-3px); }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .hero h1 .letter { animation: none; opacity: 1; transform: none; }
+      .available .pulse::after { animation: none; }
+      .hero-photo img { animation: none; }
+      .project h3, .skill-cell img { transition: none; }
+    }
   </style>
 </head>
 <body>
+  <div class="scroll-progress" id="scroll-progress"></div>
   <header>
     <nav class="nav">
       <a href="#top" class="nav-mark">Rohitangshu Bose</a>
       <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+        <a href="#about" data-section="about">About</a>
+        <a href="#skills" data-section="skills">Skills</a>
+        <a href="#projects" data-section="projects">Projects</a>
+        <a href="#contact" data-section="contact">Contact</a>
+        <span class="nav-clock" id="nav-clock" aria-label="Bangalore time">BLR · --:--</span>
         <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -698,10 +875,15 @@
 
     <!-- Hero -->
     <section class="hero reveal">
+      <div class="hero-spotlight" id="hero-spotlight" aria-hidden="true"></div>
       <div class="hero-inner">
+        <div class="available" title="Open to backend, platform and infrastructure roles">
+          <span class="pulse" aria-hidden="true"></span>
+          <span>Open to opportunities · Bangalore</span>
+        </div>
         <div class="hero-eyebrow">Software Engineer · Backend &amp; Systems</div>
         <h1>Rohitangshu <span class="accent">Bose</span></h1>
-        <p class="hero-tagline">Building reliable, fault-tolerant infrastructure where correctness and consistency are first-class concerns.</p>
+        <p class="hero-tagline">I work at the layers most engineers abstract over — storage engines, consensus protocols, and concurrent systems where partial failure is the default state.</p>
         <div class="hero-links">
           <a href="https://www.linkedin.com/in/rohitangshu-bose/" target="_blank" rel="noopener" aria-label="LinkedIn">
             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="" />
@@ -732,21 +914,21 @@
       </div>
       <div class="about-body">
         <p>
-          I'm a backend and systems engineer focused on the layers closest to the operating system,
-          network, and storage — where <em>correctness</em>, <em>concurrency</em>, and behavior
-          under partial failure decide whether a system is actually reliable.
+          I'm drawn to the layers most engineers abstract over. The places where a node can
+          crash mid-write, two clients can commit at the same instant, and the network can
+          silently drop half the traffic — and the system still has to be <em>correct</em>.
         </p>
         <p>
-          My work spans concurrent servers, Redis-style and Raft-based key-value stores, and
-          write-optimized storage engines — built from first principles to study the real
-          trade-offs between durability, consistency, and performance rather than rely on
-          opaque abstractions.
+          So I build small, deliberate systems from scratch. A Redis-style key-value store.
+          A Raft-based consensus engine. A write-ahead log. An LSM-tree. Each one is an
+          excuse to study the same trade-off in a different shape — <em>durability</em>
+          against latency, <em>consistency</em> against availability, simplicity against
+          speed.
         </p>
         <p>
-          Areas of depth include POSIX systems programming, write-ahead logging, LSM-tree
-          storage, and distributed consensus. Actively seeking <em>backend</em>,
-          <em>platform</em>, or <em>infrastructure</em> roles where reliability and
-          failure-aware design are core requirements.
+          My depth lives in POSIX systems programming, write-ahead logging, LSM-tree storage,
+          and distributed consensus. I'm looking for backend, platform, or infrastructure
+          roles where reliability and failure-aware design aren't an afterthought.
         </p>
       </div>
     </section>
@@ -836,7 +1018,7 @@
               <span class="chip">Concurrency</span>
             </div>
             <p class="project-desc">
-              Event-driven TCP server with a Redis-inspired protocol, thread-safe in-memory storage, and concurrent client handling — built to explore protocol design, concurrency correctness, and failure safety from first principles.
+              An event-driven TCP server speaking a Redis-inspired protocol, with thread-safe in-memory storage and concurrent client handling. Built from scratch to study protocol design, concurrency correctness, and failure safety with no abstractions in the way.
             </p>
             <a href="https://github.com/Rohitangshu2026/mini-redis" target="_blank" rel="noopener" class="project-link">
               View on GitHub <span class="arrow">→</span>
@@ -952,7 +1134,7 @@
               <span class="chip">File Locking</span>
             </div>
             <p class="project-desc">
-              A multi-client banking backend over POSIX sockets with record-level file locking and semaphore-based concurrency control — guaranteeing consistency and integrity under concurrent reads and writes.
+              A multi-client banking backend running over raw POSIX sockets. Record-level file locking and semaphore-based concurrency control hold consistency and integrity together even under heavy concurrent load.
             </p>
             <a href="https://github.com/Rohitangshu2026/banking-management-system" target="_blank" rel="noopener" class="project-link">
               View on GitHub <span class="arrow">→</span>
@@ -1015,7 +1197,7 @@
               <span class="chip">Pattern Matching</span>
             </div>
             <p class="project-desc">
-              A from-scratch <code>grep</code> implementation focused on POSIX-style matching correctness and a clean separation between input processing and pattern logic.
+              A <code>grep</code> rebuilt from scratch. POSIX-style matching correctness, with a clean separation between input streaming and pattern logic — small surface, careful edges.
             </p>
             <a href="https://github.com/Rohitangshu2026/grep-from-scratch" target="_blank" rel="noopener" class="project-link">
               View on GitHub <span class="arrow">→</span>
@@ -1030,12 +1212,13 @@
     <section id="contact" class="reveal">
       <div class="section-head">
         <div class="section-eyebrow">— Contact</div>
-        <h2 class="serif">Get in touch</h2>
+        <h2 class="serif">Let's build something that lasts</h2>
       </div>
       <div class="contact-inner">
         <p>
-          Open to backend, platform, and infrastructure roles where correctness,
-          reliability, and scalability matter more than frameworks.
+          Open to backend, platform, and infrastructure roles where <em>correctness</em>,
+          <em>reliability</em>, and <em>scalability</em> matter more than frameworks.
+          The best conversations usually start over email.
         </p>
         <div class="contact-links">
           <a href="mailto:rbose2002@gmail.com">
@@ -1057,7 +1240,7 @@
 
     <footer>
       <span class="serif-mark">Rohitangshu Bose</span>
-      <span>© <span id="year"></span> — Crafted with care.</span>
+      <span>© <span id="year"></span> — Designed and built with care in Bangalore.</span>
     </footer>
 
   </main>
@@ -1078,23 +1261,136 @@
       document.getElementById('year').textContent = new Date().getFullYear();
 
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const reveals = document.querySelectorAll('.reveal');
 
+      /* ---------- 1. Scroll-linked reveals ---------- */
+      const reveals = document.querySelectorAll('.reveal');
       if (prefersReduced) {
         reveals.forEach(r => r.classList.add('visible'));
-        return;
+      } else {
+        const revealObs = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              revealObs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        reveals.forEach(r => revealObs.observe(r));
       }
 
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12 });
+      /* ---------- 2. Scroll progress bar ---------- */
+      const progress = document.getElementById('scroll-progress');
+      const updateProgress = () => {
+        const scrolled = window.scrollY;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = max > 0 ? (scrolled / max) * 100 : 0;
+        progress.style.width = pct + '%';
+      };
+      updateProgress();
+      window.addEventListener('scroll', updateProgress, { passive: true });
 
-      reveals.forEach(r => observer.observe(r));
+      /* ---------- 3. Live Bangalore clock (IST) ---------- */
+      const clockEl = document.getElementById('nav-clock');
+      const fmt = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+      const tickClock = () => {
+        clockEl.textContent = 'BLR · ' + fmt.format(new Date()) + ' IST';
+      };
+      tickClock();
+      setInterval(tickClock, 30 * 1000);
+
+      /* ---------- 4. Active section highlighting ---------- */
+      const navLinks = document.querySelectorAll('.nav-links a[data-section]');
+      const sections = ['about', 'skills', 'projects', 'contact']
+        .map(id => document.getElementById(id))
+        .filter(Boolean);
+
+      const setActive = (id) => {
+        navLinks.forEach(a => {
+          a.classList.toggle('is-active', a.dataset.section === id);
+        });
+      };
+
+      const activeObs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+
+      sections.forEach(s => activeObs.observe(s));
+
+      /* ---------- 5. Hero cursor spotlight ---------- */
+      const hero = document.querySelector('.hero');
+      const spotlight = document.getElementById('hero-spotlight');
+      if (hero && spotlight && !prefersReduced) {
+        let raf = 0;
+        let targetX = 0, targetY = 0, curX = 0, curY = 0;
+        hero.addEventListener('mousemove', (e) => {
+          const rect = hero.getBoundingClientRect();
+          targetX = e.clientX - rect.left;
+          targetY = e.clientY - rect.top;
+          if (!raf) raf = requestAnimationFrame(animateSpotlight);
+        });
+        hero.addEventListener('mouseleave', () => {
+          spotlight.style.opacity = '0';
+        });
+        hero.addEventListener('mouseenter', () => {
+          spotlight.style.opacity = '1';
+        });
+        const animateSpotlight = () => {
+          curX += (targetX - curX) * 0.18;
+          curY += (targetY - curY) * 0.18;
+          spotlight.style.transform = `translate3d(${curX}px, ${curY}px, 0) translate(-50%, -50%)`;
+          if (Math.abs(targetX - curX) > 0.5 || Math.abs(targetY - curY) > 0.5) {
+            raf = requestAnimationFrame(animateSpotlight);
+          } else {
+            raf = 0;
+          }
+        };
+      }
+
+      /* ---------- 6. Hero name letter-by-letter reveal ---------- */
+      const heading = document.querySelector('.hero h1');
+      if (heading && !prefersReduced) {
+        let delay = 0;
+        const splitNode = (node) => {
+          const kids = Array.from(node.childNodes);
+          kids.forEach(child => {
+            if (child.nodeType === Node.TEXT_NODE) {
+              const frag = document.createDocumentFragment();
+              for (const ch of child.textContent) {
+                const span = document.createElement('span');
+                span.className = 'letter';
+                span.textContent = ch === ' ' ? ' ' : ch;
+                span.style.animationDelay = (delay * 0.045) + 's';
+                delay++;
+                frag.appendChild(span);
+              }
+              child.replaceWith(frag);
+            } else if (child.nodeType === Node.ELEMENT_NODE) {
+              splitNode(child);
+            }
+          });
+        };
+        splitNode(heading);
+      }
+
+      /* ---------- 7. Smooth nav scroll with offset ---------- */
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', (e) => {
+          const href = a.getAttribute('href');
+          if (href.length <= 1) return;
+          const target = document.querySelector(href);
+          if (!target) return;
+          e.preventDefault();
+          const top = target.getBoundingClientRect().top + window.scrollY - 70;
+          window.scrollTo({ top, behavior: prefersReduced ? 'auto' : 'smooth' });
+        });
+      });
     });
   </script>
 </body>
