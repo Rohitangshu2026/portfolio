@@ -597,18 +597,6 @@
     .timeline {
       max-width: 700px;
       margin: 0 auto;
-      position: relative;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: var(--border);
-      transform: translateX(-50%);
     }
 
     .timeline-item {
@@ -616,30 +604,39 @@
       flex-direction: column;
       align-items: center;
       position: relative;
-      padding: 1rem 0 2.5rem;
+      padding: 1.4rem 0 2.6rem;
       text-align: center;
     }
 
-    .timeline-item:last-child { padding-bottom: 0; }
+    /* Connector segments live ONLY in the padding zones around each item —
+       never behind text, so we don't need any solid background masking. */
+    .timeline-item::before,
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      width: 1px;
+      background: var(--border);
+      transform: translateX(-50%);
+    }
+    .timeline-item::before { top: 0;    height: 1.4rem; }
+    .timeline-item::after  { bottom: 0; height: 2.6rem; }
+    .timeline-item:first-child::before { display: none; }
+    .timeline-item:last-child::after   { display: none; }
+    .timeline-item:last-child          { padding-bottom: 0; }
 
-    /* Mask the vertical line behind text so it doesn't show through */
     .timeline-item > *:not(.timeline-dot) {
-      position: relative;
-      z-index: 1;
-      background: var(--bg);
-      padding: 0 0.8rem;
+      padding: 0 0.4rem;
       max-width: 100%;
     }
 
     .timeline-dot {
       width: 11px;
       height: 11px;
-      background: var(--bg);
+      background: transparent;
       border: 2px solid var(--accent);
       border-radius: 50%;
       margin: 0 0 1.2rem;
-      position: relative;
-      z-index: 1;
     }
 
     .timeline-year {
