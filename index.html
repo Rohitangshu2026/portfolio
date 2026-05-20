@@ -123,16 +123,30 @@
 
     html { scroll-behavior: smooth; }
 
+    /* Vintage paper grain — reused across surfaces */
+    :root {
+      --noise: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
     body {
       margin: 0;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       font-size: 16px;
-      background: var(--bg);
+      background-color: var(--bg);
+      background-image: var(--noise);
+      background-repeat: repeat;
+      background-blend-mode: multiply;
       color: var(--text);
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      transition: background .3s ease, color .3s ease;
+      transition: background-color .3s ease, color .3s ease;
+    }
+
+    /* On dark palettes, lighten instead of darken so grain stays visible */
+    body[data-theme="dark"],
+    body[data-theme="night"] {
+      background-blend-mode: screen;
     }
 
     .serif {
