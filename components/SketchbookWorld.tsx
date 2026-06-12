@@ -1,9 +1,8 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { ScrollControls, useScroll } from "@react-three/drei";
 import { EffectComposer } from "@react-three/postprocessing";
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import * as THREE from "three";
 import { Hallway } from "./Hallway";
 import { Doorway } from "./Doorway";
@@ -29,6 +28,17 @@ const ROOMS = [
 export function SketchbookWorld() {
   const [activeRoom, setActiveRoom] = useState<string | null>(null);
 
+  // Lock the body scroll while a room overlay is open — otherwise the user
+  // can keep scrolling underneath, and on close the camera jumps to a new spot.
+  useEffect(() => {
+    if (!activeRoom) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [activeRoom]);
+
   return (
     <>
       <Canvas
@@ -40,12 +50,12 @@ export function SketchbookWorld() {
         {/* Soft warm ambient — we lean on basic materials so no real lighting math */}
         <ambientLight intensity={1.0} />
 
-        <ScrollControls pages={6} damping={0.22} maxSpeed={0.6}>
-          <Scene
-            onEnterRoom={setActiveRoom}
-            dimmed={activeRoom !== null}
-          />
-        </ScrollControls>
+        {/* Native window scroll drives the camera — the HUD reads the same
+            window.scrollY so chapter labels stay in sync with the world. */}
+        <Scene
+          onEnterRoom={setActiveRoom}
+          dimmed={activeRoom !== null}
+        />
 
         {/* Hint of distance fog matching the paper colour */}
         <fog attach="fog" args={["#f0e9d8", 18, 56]} />
@@ -71,12 +81,14 @@ function Scene({
   onEnterRoom: (slug: string) => void;
   dimmed: boolean;
 }) {
-  const scroll = useScroll();
   const swayRef = useRef(0);
 
   useFrame((state, delta) => {
     const cam = state.camera;
-    const t = scroll.offset; // 0 → 1 down the hallway
+
+    // Read scroll progress from the native window — kept in sync with the HUD
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const t = total > 0 ? window.scrollY / total : 0;
 
     // Glide camera forward along -Z
     const targetZ = 6 - t * 56;

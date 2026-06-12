@@ -21,14 +21,16 @@ export function HUD() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Map scroll progress 0..1 to chapter label
+  // Map scroll progress 0..1 to chapter label.
+  // Breakpoints sit at the *midpoint* between consecutive doorway z-positions,
+  // so the label flips exactly when the camera is closer to the next door.
   const chapter =
-    scrollProgress < 0.05  ? "Threshold" :
-    scrollProgress < 0.22  ? "About"     :
-    scrollProgress < 0.40  ? "Skills"    :
-    scrollProgress < 0.58  ? "Education" :
-    scrollProgress < 0.78  ? "Projects"  :
-                             "Contact";
+    scrollProgress < 0.13 ? "Threshold" :
+    scrollProgress < 0.34 ? "About"     :
+    scrollProgress < 0.52 ? "Skills"    :
+    scrollProgress < 0.70 ? "Education" :
+    scrollProgress < 0.88 ? "Projects"  :
+                            "Contact";
 
   return (
     <>
