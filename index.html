@@ -594,9 +594,17 @@
     /* Education */
     #education { padding-top: 6rem; }
 
+    /* One pulse position drives BOTH segments — smooth continuous flow */
+    @property --pulse-y {
+      syntax: '<percentage>';
+      initial-value: 0%;
+      inherits: true;
+    }
+
     .timeline {
       max-width: 700px;
       margin: 0 auto;
+      --pulse-y: 0%;
     }
 
     .timeline-item {
@@ -609,14 +617,25 @@
     }
 
     /* Connector segments live ONLY in the padding zones around each item —
-       never behind text, so we don't need any solid background masking. */
+       never behind text, so we don't need any solid background masking.
+       The accent gradient sits below the element by default and only
+       enters the visible range while the pulse animation runs. */
     .timeline-item::before,
     .timeline-item::after {
       content: '';
       position: absolute;
       left: 50%;
       width: 1px;
-      background: var(--border);
+      background-color: var(--border);
+      background-image: linear-gradient(to top,
+        transparent 0%,
+        transparent 47%,
+        var(--accent) 50%,
+        transparent 53%,
+        transparent 100%);
+      background-size: 100% 200%;
+      background-position: 50% 0%;
+      background-repeat: no-repeat;
       transform: translateX(-50%);
     }
     .timeline-item::before { top: 0;    height: 1.4rem; }
@@ -666,6 +685,118 @@
       max-width: 520px;
       margin: 0 auto;
       line-height: 1.6;
+    }
+
+    /* --- Timeline reveal animation: line draws bottom → top, top dot pulses as the "now" --- */
+    #education .timeline-dot {
+      transform: scale(0);
+      transition: transform .55s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  background .3s ease,
+                  box-shadow .3s ease;
+    }
+    #education .timeline-item::before,
+    #education .timeline-item::after {
+      transform: translateX(-50%) scaleY(0);
+      transform-origin: bottom;
+      transition: transform .6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #education .timeline-item > *:not(.timeline-dot) {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+
+    #education.visible .timeline-dot { transform: scale(1); }
+    #education.visible .timeline-item::before,
+    #education.visible .timeline-item::after {
+      transform: translateX(-50%) scaleY(1);
+    }
+    #education.visible .timeline-item > *:not(.timeline-dot) {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger: bottom (older) item appears first, then line draws upward, then top (current) dot ignites */
+    #education .timeline-item:nth-child(2) .timeline-dot                     { transition-delay: 0.15s; }
+    #education .timeline-item:nth-child(2) > *:not(.timeline-dot)            { transition-delay: 0.30s; }
+    #education .timeline-item:nth-child(2)::before                           { transition-delay: 0.50s; }
+
+    #education .timeline-item:nth-child(1)::after                            { transition-delay: 0.85s; }
+    #education .timeline-item:nth-child(1) .timeline-dot                     { transition-delay: 1.30s; }
+    #education .timeline-item:nth-child(1) > *:not(.timeline-dot)            { transition-delay: 1.45s; }
+
+    /* Top dot — filled accent + sonar-style signal pings */
+    #education .timeline-item:nth-child(1) .timeline-dot {
+      position: relative;
+      background: var(--accent);
+    }
+    #education .timeline-item:nth-child(1) .timeline-dot::before,
+    #education .timeline-item:nth-child(1) .timeline-dot::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #education.visible .timeline-item:nth-child(1) .timeline-dot::before {
+      animation: signalPing 2.8s cubic-bezier(0.2, 0.5, 0.4, 1) 3.25s infinite;
+    }
+    #education.visible .timeline-item:nth-child(1) .timeline-dot::after {
+      animation: signalPing 2.8s cubic-bezier(0.2, 0.5, 0.4, 1) 4.65s infinite;
+    }
+
+    /* Each segment maps the SHARED --pulse-y to its own background position —
+       segment 2 (bottom, 35% of the line) consumes --pulse-y from 0–35%,
+       segment 1 (top, 65% of the line) consumes --pulse-y from 35–100%.
+       This keeps the pulse moving at constant speed across both. */
+    #education .timeline-item:nth-child(2)::before {
+      background-position: 50% calc(var(--pulse-y) / 0.35);
+    }
+    #education .timeline-item:nth-child(1)::after {
+      background-position: 50% calc((var(--pulse-y) - 35%) / 0.65);
+    }
+
+    #education.visible .timeline {
+      animation: timelinePulse 1.4s linear 1.85s infinite;
+    }
+
+    @keyframes timelinePulse {
+      0%   { --pulse-y: 0%; }
+      100% { --pulse-y: 100%; }
+    }
+
+    @keyframes signalPing {
+      0%   { transform: scale(0.8); opacity: 0.65; }
+      10%  { opacity: 0.55; }
+      100% { transform: scale(3.6); opacity: 0; }
+    }
+
+    /* Hover: dot fills with accent, soft halo */
+    .timeline-item:hover .timeline-dot {
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #education .timeline-dot { transform: scale(1); transition: none; }
+      #education .timeline-item::before,
+      #education .timeline-item::after { transform: translateX(-50%); transition: none; }
+      #education .timeline-item > *:not(.timeline-dot) {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      #education.visible .timeline-item:nth-child(1) .timeline-dot::before,
+      #education.visible .timeline-item:nth-child(1) .timeline-dot::after,
+      #education.visible .timeline {
+        animation: none;
+      }
+      #education .timeline-item:nth-child(2)::before,
+      #education .timeline-item:nth-child(1)::after {
+        background-position: 50% 0%;
+      }
     }
 
     /* Projects */
@@ -1207,7 +1338,7 @@
           <h3>MTech, Computer Science &amp; Engineering</h3>
           <div class="timeline-inst">International Institute of Information Technology, Bangalore</div>
           <div class="timeline-courses">
-            Algorithms · Data Modeling · Design Patterns · NoSQL · Software Production Engineering · System Software
+            Algorithms · Cloud Computing · Data Modeling · Design Patterns · Distributed Computing · Enterprise Software Development · NoSQL · Software Architecture and Design Practices · Software Production Engineering · System Software
           </div>
         </div>
         <div class="timeline-item">
@@ -1216,7 +1347,7 @@
           <h3>BTech, Computer Science &amp; Engineering (AIML)</h3>
           <div class="timeline-inst">Institute of Engineering and Management, Kolkata</div>
           <div class="timeline-courses">
-            Computer Networks · DBMS · Data Structures &amp; Algorithms · Operating Systems · OOP · Machine Learning · Deep Learning
+            Computer Networks · Data Structures &amp; Algorithms · DBMS · Deep Learning · Machine Learning · OOP · Operating Systems
           </div>
         </div>
       </div>
