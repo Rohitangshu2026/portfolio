@@ -2,7 +2,7 @@
 
 import { Html, Line } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
 
 const INK = "#1a1614";
@@ -20,14 +20,27 @@ export function Doorway({
   side,
   label,
   onEnter,
+  dimmed = false,
 }: {
   position: number;       // z along the hallway
   side: "left" | "right";
   label: string;
   onEnter?: () => void;
+  /**
+   * When true, the floating HTML label and the click-capture mesh are
+   * unmounted entirely — used while a room overlay is open so the labels
+   * don't peek through the translucent scrim and don't intercept clicks.
+   */
+  dimmed?: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   const groupRef = useRef<THREE.Group>(null);
+
+  // Reset hover state if the doorway gets dimmed (room opened) — otherwise
+  // the bronze/scale state would persist when we come back to the hallway.
+  useEffect(() => {
+    if (dimmed) setHovered(false);
+  }, [dimmed]);
 
   // Door dimensions
   const DW = 1.8;
@@ -82,43 +95,48 @@ export function Doorway({
         lineWidth={1.4}
       />
 
-      {/* Floating sketched label above the door */}
-      <group ref={groupRef} position={[0, -1 + DH + 0.45, 0.02]}>
-        <Html center distanceFactor={6} transform sprite>
-          <button
-            type="button"
+      {/* Floating sketched label + click-capture mesh.
+          Both are skipped while a room is open so they don't bleed through
+          the overlay scrim or intercept pointer events. */}
+      {!dimmed && (
+        <>
+          <group ref={groupRef} position={[0, -1 + DH + 0.45, 0.02]}>
+            <Html center distanceFactor={6} transform sprite>
+              <button
+                type="button"
+                onPointerEnter={() => setHovered(true)}
+                onPointerLeave={() => setHovered(false)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEnter?.();
+                }}
+                className={`handwritten select-none whitespace-nowrap text-5xl transition-all cursor-pointer ${
+                  hovered ? "scale-110 text-bronze" : "text-ink"
+                }`}
+                style={{
+                  textShadow: "0 1px 0 rgba(255,255,255,0.5)",
+                  padding: "0.2rem 0.8rem",
+                }}
+              >
+                {label}
+              </button>
+            </Html>
+          </group>
+
+          <mesh
+            position={[0, -1 + DH / 2, 0.04]}
             onPointerEnter={() => setHovered(true)}
             onPointerLeave={() => setHovered(false)}
             onClick={(e) => {
               e.stopPropagation();
               onEnter?.();
             }}
-            className={`handwritten select-none whitespace-nowrap text-5xl transition-all cursor-pointer ${
-              hovered ? "scale-110 text-bronze" : "text-ink"
-            }`}
-            style={{
-              textShadow: "0 1px 0 rgba(255,255,255,0.5)",
-              padding: "0.2rem 0.8rem",
-            }}
           >
-            {label}
-          </button>
-        </Html>
-      </group>
-
-      {/* Invisible mesh to catch clicks across the whole door area */}
-      <mesh
-        position={[0, -1 + DH / 2, 0.04]}
-        onPointerEnter={() => setHovered(true)}
-        onPointerLeave={() => setHovered(false)}
-        onClick={(e) => {
-          e.stopPropagation();
-          onEnter?.();
-        }}
-      >
-        <planeGeometry args={[DW, DH]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
+            <planeGeometry args={[DW, DH]} />
+            <meshBasicMaterial transparent opacity={0} />
+          </mesh>
+        </>
+      )}
     </group>
   );
 }

@@ -41,7 +41,10 @@ export function SketchbookWorld() {
         <ambientLight intensity={1.0} />
 
         <ScrollControls pages={6} damping={0.22} maxSpeed={0.6}>
-          <Scene onEnterRoom={setActiveRoom} />
+          <Scene
+            onEnterRoom={setActiveRoom}
+            dimmed={activeRoom !== null}
+          />
         </ScrollControls>
 
         {/* Hint of distance fog matching the paper colour */}
@@ -61,7 +64,13 @@ export function SketchbookWorld() {
 /* ------------------------------------------------------------------ */
 /* Scene — receives scroll progress + dispatches room enter events    */
 /* ------------------------------------------------------------------ */
-function Scene({ onEnterRoom }: { onEnterRoom: (slug: string) => void }) {
+function Scene({
+  onEnterRoom,
+  dimmed,
+}: {
+  onEnterRoom: (slug: string) => void;
+  dimmed: boolean;
+}) {
   const scroll = useScroll();
   const swayRef = useRef(0);
 
@@ -110,6 +119,7 @@ function Scene({ onEnterRoom }: { onEnterRoom: (slug: string) => void }) {
           side={r.side}
           label={r.label}
           onEnter={() => onEnterRoom(r.slug)}
+          dimmed={dimmed}
         />
       ))}
 
