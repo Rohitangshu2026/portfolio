@@ -109,7 +109,6 @@ function Scene({ onEnterRoom }: { onEnterRoom: (slug: string) => void }) {
           position={r.z}
           side={r.side}
           label={r.label}
-          enterable={r.slug === "about"} // slice: only About is fully interactive
           onEnter={() => onEnterRoom(r.slug)}
         />
       ))}

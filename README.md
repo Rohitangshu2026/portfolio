@@ -15,7 +15,12 @@ A focused vertical slice of the larger sketchbook world:
 - **A 3D hand-drawn hallway** with notebook-ruled walls, ink-line corners, and a faint paper-seam centre line down the floor.
 - **Five sketched doorways** along the corridor — *About · Skills · Education · Projects · Contact* — alternating left and right with hand-written labels.
 - **Scroll-driven camera** that walks you forward with a subtle bob and a head-turn as you pass each door.
-- **One enterable room** (About) — clicking the door triggers a GSAP zoom-in card with hand-written copy. The other four show a "still being sketched" doodle for now.
+- **All five rooms are wired up** — every doorway opens a GSAP zoom-in card with real hand-written content:
+  - *About* — a note on the work, written in three short paragraphs.
+  - *Skills* — five paper-bobbing category cards (Languages, Backend, Data & Storage, Systems, Tools).
+  - *Education* — a two-entry vertical timeline with bronze dots, the MTech entry filled to mark "current".
+  - *Projects* — all nine projects as a numbered editorial list with tech chips, descriptions, and GitHub links.
+  - *Contact* — five tiles (Email, Phone, GitHub, LinkedIn, LeetCode) with hover state and a closing line in handwriting.
 - **A guide orb** — a tiny sketchy companion that spring-follows the camera. Placeholder for the fully animated character.
 - **Floating doodles** — paper planes, spirals, and kid-doodle stars drift in the corridor as parallax.
 - **HUD** in handwritten Caveat — sketchbook seal, chapter indicator with progress beads, scroll hint, and a "Made by hand · Bangalore" tag.
@@ -28,7 +33,7 @@ A focused vertical slice of the larger sketchbook world:
 Honest list of what the slice does *not* yet do, ordered roughly by how much they'd raise the experience:
 
 1. **The real animated guide character** — currently a placeholder orb. Needs a rigged sketchy doodle (paper child / pencil sprite) with idle, walk, point, surprise.
-2. **The other four rooms** — Skills/Education/Projects/Contact contents and their per-room scenography (each should feel like a different scribbled space, not the same card).
+2. **Per-room scenography inside the 3D world** — every room is currently a 2D DOM overlay. The next leap is making each room a fully sketched 3D space the camera flies *into* (book-shelf for Skills, lecture hall for Education, gallery for Projects, mailbox alcove for Contact).
 3. **Easter eggs** — tucked-away interactive doodles, a hidden door, an "underline this to reveal" mechanic.
 4. **Ambient sound** — paper rustle on scroll, pencil scratch when a door label hovers, distant page-turn when entering a room.
 5. **WASD + click-to-walk** as a secondary navigation alongside scroll.

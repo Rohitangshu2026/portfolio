@@ -20,13 +20,11 @@ export function Doorway({
   side,
   label,
   onEnter,
-  enterable = true,
 }: {
   position: number;       // z along the hallway
   side: "left" | "right";
   label: string;
   onEnter?: () => void;
-  enterable?: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   const groupRef = useRef<THREE.Group>(null);
@@ -51,11 +49,11 @@ export function Doorway({
       <planeGeometry args={[DW - 0.05, DH - 0.05]} />
       <meshBasicMaterial
         color={hovered ? BRONZE : INK}
-        opacity={hovered ? 0.18 : (enterable ? 0.08 : 0.05)}
+        opacity={hovered ? 0.18 : 0.08}
         transparent
       />
     </mesh>
-  ), [hovered, enterable, DW, DH]);
+  ), [hovered, DW, DH]);
 
   // Gentle handwriting bob on the label
   useFrame((state) => {
@@ -93,11 +91,11 @@ export function Doorway({
             onPointerLeave={() => setHovered(false)}
             onClick={(e) => {
               e.stopPropagation();
-              if (enterable) onEnter?.();
+              onEnter?.();
             }}
-            className={`handwritten select-none whitespace-nowrap text-5xl transition-all ${
+            className={`handwritten select-none whitespace-nowrap text-5xl transition-all cursor-pointer ${
               hovered ? "scale-110 text-bronze" : "text-ink"
-            } ${enterable ? "cursor-pointer" : "cursor-not-allowed opacity-70"}`}
+            }`}
             style={{
               textShadow: "0 1px 0 rgba(255,255,255,0.5)",
               padding: "0.2rem 0.8rem",
@@ -108,24 +106,6 @@ export function Doorway({
         </Html>
       </group>
 
-      {/* "Coming soon" doodle for non-enterable doors */}
-      {!enterable && (
-        <Line
-          points={[
-            [-DW / 2 + 0.2, -1 + DH / 2 + 0.4, 0.03],
-            [-DW / 2 + 0.6, -1 + DH / 2 - 0.4, 0.03],
-            [-DW / 2 + 0.5, -1 + DH / 2 + 0.2, 0.03],
-            [-DW / 2 + 1.1, -1 + DH / 2 - 0.2, 0.03],
-            [-DW / 2 + 1.0, -1 + DH / 2 + 0.4, 0.03],
-            [-DW / 2 + 1.5, -1 + DH / 2 - 0.4, 0.03],
-          ]}
-          color={INK}
-          lineWidth={1.2}
-          transparent
-          opacity={0.45}
-        />
-      )}
-
       {/* Invisible mesh to catch clicks across the whole door area */}
       <mesh
         position={[0, -1 + DH / 2, 0.04]}
@@ -133,7 +113,7 @@ export function Doorway({
         onPointerLeave={() => setHovered(false)}
         onClick={(e) => {
           e.stopPropagation();
-          if (enterable) onEnter?.();
+          onEnter?.();
         }}
       >
         <planeGeometry args={[DW, DH]} />
