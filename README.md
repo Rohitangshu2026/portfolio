@@ -20,6 +20,7 @@ A focused vertical slice of the larger sketchbook world:
 - **Floating doodles** — paper planes, spirals, and kid-doodle stars drift in the corridor as parallax.
 - **HUD** in handwritten Caveat — sketchbook seal, chapter indicator with progress beads, scroll hint, and a "Made by hand · Bangalore" tag.
 - **Vintage paper grain** + **vignette** overlays for that sketchbook feel.
+- **Cross-hatching post-process** — a custom `@react-three/postprocessing` Effect that runs over the final image: luminance-driven hatching at three stacked diagonals, Sobel-style edge detection drawing ink outlines, a 6 fps paper jitter for hand-drawn flicker, and chroma preservation so the bronze accents survive the mono treatment.
 - **Static export friendly** (`output: 'export'`) so it can deploy to GitHub Pages or any CDN.
 
 ## What's still ahead
@@ -28,12 +29,12 @@ Honest list of what the slice does *not* yet do, ordered roughly by how much the
 
 1. **The real animated guide character** — currently a placeholder orb. Needs a rigged sketchy doodle (paper child / pencil sprite) with idle, walk, point, surprise.
 2. **The other four rooms** — Skills/Education/Projects/Contact contents and their per-room scenography (each should feel like a different scribbled space, not the same card).
-3. **A proper sketch shader** — right now the look comes from baked ink-line geometry. A real outline + cross-hatching post-process (via `@react-three/postprocessing`) would unify everything.
-4. **Easter eggs** — tucked-away interactive doodles, a hidden door, an "underline this to reveal" mechanic.
-5. **Ambient sound** — paper rustle on scroll, pencil scratch when a door label hovers, distant page-turn when entering a room.
-6. **WASD + click-to-walk** as a secondary navigation alongside scroll.
-7. **Mobile gestures** — pinch-zoom on rooms, swipe-up to see the chapter index.
-8. **Performance polish** — InstancedMesh for the doodles, frustum culling for off-screen doorways, frameloop="demand" on idle.
+3. **Easter eggs** — tucked-away interactive doodles, a hidden door, an "underline this to reveal" mechanic.
+4. **Ambient sound** — paper rustle on scroll, pencil scratch when a door label hovers, distant page-turn when entering a room.
+5. **WASD + click-to-walk** as a secondary navigation alongside scroll.
+6. **Mobile gestures** — pinch-zoom on rooms, swipe-up to see the chapter index.
+7. **Performance polish** — InstancedMesh for the doodles, frustum culling for off-screen doorways, frameloop="demand" on idle.
+8. **Shader depth-pass** — currently the hatching keys off luminance; sampling the depth buffer would let far surfaces darken automatically for atmospheric perspective.
 
 ---
 
@@ -81,6 +82,7 @@ components/
   HUD.tsx               Sketchbook seal, chapter indicator, scroll hint
   PaperOverlay.tsx      Two DOM layers — grain + vignette
   RoomOverlay.tsx       GSAP-driven card that appears when you enter a door
+  SketchEffect.tsx      Custom post-process: hatching + edges + accent preserve
 
 next.config.mjs   output:'export', basePath via env, three transpile flags
 tsconfig.json     Strict TS, "@/*" path alias

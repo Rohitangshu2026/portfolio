@@ -2,6 +2,7 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { ScrollControls, useScroll } from "@react-three/drei";
+import { EffectComposer } from "@react-three/postprocessing";
 import { useRef, useState, type ReactNode } from "react";
 import * as THREE from "three";
 import { Hallway } from "./Hallway";
@@ -9,6 +10,7 @@ import { Doorway } from "./Doorway";
 import { FloatingDoodle } from "./FloatingDoodle";
 import { GuideOrb } from "./GuideOrb";
 import { RoomOverlay } from "./RoomOverlay";
+import { SketchEffect } from "./SketchEffect";
 
 /* ------------------------------------------------------------------ */
 /* Section catalogue                                                  */
@@ -44,6 +46,11 @@ export function SketchbookWorld() {
 
         {/* Hint of distance fog matching the paper colour */}
         <fog attach="fog" args={["#f0e9d8", 18, 56]} />
+
+        {/* The single post-process pass that gives everything the pencil look */}
+        <EffectComposer multisampling={0} enableNormalPass={false}>
+          <SketchEffect />
+        </EffectComposer>
       </Canvas>
 
       <RoomOverlay slug={activeRoom} onClose={() => setActiveRoom(null)} />
