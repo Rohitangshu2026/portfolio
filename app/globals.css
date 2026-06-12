@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+/* ---------- Sketchbook design tokens ---------- */
+@theme {
+  --color-paper:       #f5f1ea;
+  --color-paper-light: #fbf7f0;
+  --color-paper-edge:  #e7ddc8;
+  --color-ink:         #1a1614;
+  --color-ink-soft:    #6a615a;
+  --color-bronze:      #8b5e34;
+  --color-bronze-soft: #c4805c;
+
+  --font-display: var(--font-caveat), "Comic Sans MS", cursive;
+  --font-body:    var(--font-inter), system-ui, sans-serif;
+}
+
+/* Reset + base */
+html, body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The Canvas owns the viewport; scrollable spacer below it drives camera */
+.world-root {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.scroll-spacer {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ---------- Hand-drawn paper grain (very faint, sits above the canvas) ---------- */
+.paper-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* A second, larger sketch-paper darken in the corners — gives that vignette feel */
+.paper-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 11;
+  background: radial-gradient(ellipse at center,
+    transparent 50%,
+    rgba(60, 40, 20, 0.10) 100%);
+}
+
+/* ---------- HUD typography helpers ---------- */
+.handwritten {
+  font-family: var(--font-display);
+  letter-spacing: 0;
+}
+
+.ink-line {
+  position: relative;
+}
+
+.ink-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: var(--color-ink);
+  border-radius: 2px;
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ink-line:hover::after { transform: scaleX(1); }
+
+/* ---------- Slight handwriting jitter ---------- */
+@keyframes paperBob {
+  0%, 100% { transform: translateY(0) rotate(-0.3deg); }
+  50%      { transform: translateY(-2px) rotate(0.3deg); }
+}
+
+.paper-bob { animation: paperBob 5.5s ease-in-out infinite; }
