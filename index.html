@@ -255,15 +255,52 @@
     }
 
     .hero-photo {
-      width: 92px;
-      height: 92px;
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
       object-fit: cover;
       border: 1px solid var(--border);
       background: var(--surface);
       box-shadow: var(--photo-shadow);
-      margin-bottom: 1.8rem;
+      margin-bottom: 2rem;
     }
+
+    /* ---------- Hero entrance ---------- */
+    .hero h1 .letter {
+      display: inline-block;
+      white-space: pre;          /* keeps the space between words */
+      opacity: 0;
+      transform: translateY(.45em);
+      animation: letterPop .5s cubic-bezier(.2, .8, .2, 1) forwards;
+    }
+
+    @keyframes letterPop {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Everything else in the hero rises in behind the name */
+    .hero-photo,
+    .hero-eyebrow,
+    .hero-capability,
+    .hero-tagline,
+    .hero-actions,
+    .hero-secondary {
+      opacity: 0;
+      animation: heroRise .55s ease forwards;
+    }
+
+    @keyframes heroRise {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-photo      { animation-delay: .05s; }
+    .hero-eyebrow    { animation-delay: .18s; }
+    /* h1 letters run .30s → ~.78s, staggered in JS */
+    .hero-capability { animation-delay: .82s; }
+    .hero-tagline    { animation-delay: .92s; }
+    .hero-actions    { animation-delay: 1.02s; }
+    .hero-secondary  { animation-delay: 1.12s; }
 
     .hero-eyebrow {
       font-family: var(--mono);
@@ -951,6 +988,7 @@
       .section { padding-top: 4.5rem; }
       .container { padding: 0 1.1rem; }
       .hero { min-height: auto; padding: 3.5rem 0 3rem; }
+      .hero-photo { width: 118px; height: 118px; margin-bottom: 1.6rem; }
       .project { padding: 2.2rem 0; }
       footer { flex-direction: column; align-items: center; text-align: center; }
     }
@@ -967,6 +1005,15 @@
       html { scroll-behavior: auto; }
       .reveal { opacity: 1; transform: none; transition: none; }
       .btn:hover, .project-link:hover .arrow { transform: none; }
+
+      /* Hero entrance: land on the final state immediately */
+      .hero h1 .letter,
+      .hero-photo, .hero-eyebrow, .hero-capability,
+      .hero-tagline, .hero-actions, .hero-secondary {
+        opacity: 1;
+        transform: none;
+        animation: none;
+      }
       *, *::before, *::after {
         animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
@@ -1006,15 +1053,15 @@
 
       <!-- ============================ HERO ============================ -->
       <section class="hero">
-        <img class="hero-photo" src="profile.jpg" width="92" height="92"
+        <img class="hero-photo" src="profile.jpg" width="150" height="150"
              alt="Portrait of Rohitangshu Bose" />
 
-        <p class="hero-eyebrow">I am</p>
+        <p class="hero-eyebrow">Hi, I am</p>
 
         <h1>Rohitangshu <span class="accent">Bose</span></h1>
 
         <p class="hero-capability">
-          Backend <span class="sep">/</span> Distributed Systems <span class="sep">/</span> Systems Programming
+          Software Engineer <span class="sep">&middot;</span> Backend <span class="sep">&middot;</span> Distributed Systems
         </p>
 
         <p class="hero-tagline">
@@ -1514,6 +1561,35 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---------- Hero name: letter-by-letter entrance ----------
+         Splits text nodes into per-letter spans while preserving the
+         accent <span> around "Bose". Skipped entirely for reduced motion —
+         the CSS fallback already lands on the final state.               */
+      const heroName = document.querySelector('.hero h1');
+      if (heroName && !prefersReduced) {
+        let i = 0;
+        const START = 0.30, STEP = 0.032;
+        const split = (node) => {
+          [...node.childNodes].forEach(child => {
+            if (child.nodeType === Node.TEXT_NODE) {
+              const frag = document.createDocumentFragment();
+              for (const ch of child.textContent) {
+                const span = document.createElement('span');
+                span.className = 'letter';
+                span.textContent = ch;
+                span.style.animationDelay = (START + i * STEP).toFixed(3) + 's';
+                i++;
+                frag.appendChild(span);
+              }
+              child.replaceWith(frag);
+            } else if (child.nodeType === Node.ELEMENT_NODE) {
+              split(child);
+            }
+          });
+        };
+        split(heroName);
+      }
 
       /* ---------- Scroll reveals ---------- */
       const reveals = document.querySelectorAll('.reveal');
