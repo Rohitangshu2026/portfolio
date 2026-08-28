@@ -634,41 +634,118 @@
     /* ==========================================================
        Education — compact
        ========================================================== */
-    .edu-wrap { max-width: 720px; margin: 0 auto; }
+    .edu-wrap {
+      position: relative;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* The vertical spine */
+    .edu-wrap::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: .5rem;
+      bottom: .5rem;
+      width: 1px;
+      background: var(--border);
+      transform: translateX(-50%);
+    }
 
     .edu-item {
-      padding: 1.6rem 0;
-      border-bottom: 1px solid var(--border);
-      text-align: center;
+      display: grid;
+      grid-template-columns: 1fr 44px 1fr;
+      align-items: center;
+      margin-bottom: 3.4rem;
     }
-    .edu-item:first-child { border-top: 1px solid var(--border); }
+    .edu-item:last-child { margin-bottom: 0; }
+
+    /* Node sits on the spine, masking the line behind it */
+    .edu-node {
+      grid-column: 2;
+      justify-self: center;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent);
+      background: var(--bg);
+      position: relative;
+      z-index: 1;
+      transition: background .25s ease, box-shadow .25s ease;
+    }
+
+    .edu-item:hover .edu-node {
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    /* Default (odd): card left, date right */
+    .edu-card { grid-column: 1; grid-row: 1; }
+    .edu-year { grid-column: 3; grid-row: 1; text-align: left; padding-left: .2rem; }
+
+    /* Even: mirrored */
+    .edu-item:nth-child(even) .edu-card { grid-column: 3; }
+    .edu-item:nth-child(even) .edu-year {
+      grid-column: 1;
+      text-align: right;
+      padding-left: 0;
+      padding-right: .2rem;
+    }
+
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem 1.6rem;
+      text-align: left;
+      transition: border-color .25s ease, transform .25s ease;
+    }
+
+    .edu-item:hover .edu-card {
+      border-color: var(--hairline);
+      transform: translateY(-2px);
+    }
 
     .edu-year {
       font-family: var(--mono);
       font-size: .74rem;
       color: var(--accent);
       letter-spacing: .03em;
-      margin-bottom: .5rem;
     }
 
-    .edu-item h3 {
-      font-size: 1rem;
-      margin-bottom: .25rem;
+    .edu-card h3 {
+      font-size: 1.02rem;
+      margin-bottom: .3rem;
     }
 
     .edu-inst {
-      font-size: .9rem;
-      color: var(--muted);
-      margin: 0 0 .5rem;
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--accent);
+      margin: 0 0 .9rem;
     }
 
     .edu-courses {
-      font-family: var(--mono);
-      font-size: .71rem;
-      line-height: 1.75;
-      color: var(--muted);
+      list-style: none;
       margin: 0;
-      opacity: .85;
+      padding: 0;
+    }
+
+    .edu-courses li {
+      font-size: .82rem;
+      line-height: 1.65;
+      color: var(--muted);
+      margin-bottom: .3rem;
+      /* hanging indent so wrapped lines align under the text, not the marker */
+      padding-left: 1.15rem;
+      text-indent: -1.15rem;
+    }
+    .edu-courses li:last-child { margin-bottom: 0; }
+
+    .edu-courses li::before {
+      content: '▹';
+      color: var(--accent);
+      margin-right: .45rem;
     }
 
     /* ==========================================================
@@ -746,6 +823,31 @@
       .nav-links { gap: 1rem; }
       .focus-grid { grid-template-columns: 1fr; }
       .skill-group { padding: 1.3rem 0; }
+
+      /* Education timeline collapses to a single left-hand spine */
+      .edu-wrap::before { left: 5px; transform: none; }
+
+      .edu-item {
+        grid-template-columns: 11px 1fr;
+        column-gap: 1.3rem;
+        row-gap: .55rem;
+        align-items: start;
+        margin-bottom: 2.6rem;
+      }
+
+      .edu-node,
+      .edu-item:nth-child(even) .edu-node { grid-column: 1; grid-row: 1; margin-top: .35rem; }
+
+      .edu-year,
+      .edu-item:nth-child(even) .edu-year {
+        grid-column: 2;
+        grid-row: 1;
+        text-align: left;
+        padding: 0;
+      }
+
+      .edu-card,
+      .edu-item:nth-child(even) .edu-card { grid-column: 2; grid-row: 2; }
     }
 
     @media (max-width: 640px) {
@@ -1283,31 +1385,36 @@
         </div>
 
         <div class="edu-wrap">
-        <div class="edu-item">
-          <div class="edu-year">2025 — 2027 &middot; Current</div>
-          <div>
-            <h3>MTech, Computer Science &amp; Engineering</h3>
-            <p class="edu-inst">International Institute of Information Technology, Bangalore</p>
-            <p class="edu-courses">
-              Algorithms &middot; Cloud Computing &middot; Data Modeling &middot; Design Patterns &middot;
-              Distributed Computing &middot; Enterprise Software Development &middot; NoSQL &middot;
-              Software Architecture &amp; Design Practices &middot; Software Production Engineering &middot;
-              System Software
-            </p>
-          </div>
-        </div>
 
-        <div class="edu-item">
-          <div class="edu-year">2021 — 2025</div>
-          <div>
-            <h3>BTech, Computer Science &amp; Engineering (AIML)</h3>
-            <p class="edu-inst">Institute of Engineering and Management, Kolkata</p>
-            <p class="edu-courses">
-              Computer Networks &middot; Data Structures &amp; Algorithms &middot; DBMS &middot;
-              Deep Learning &middot; Machine Learning &middot; OOP &middot; Operating Systems
-            </p>
+          <div class="edu-item">
+            <div class="edu-card">
+              <h3>MTech, Computer Science &amp; Engineering</h3>
+              <p class="edu-inst">International Institute of Information Technology, Bangalore</p>
+              <ul class="edu-courses">
+                <li>Distributed Computing &middot; Cloud Computing &middot; System Software</li>
+                <li>Software Architecture &amp; Design Practices &middot; Design Patterns</li>
+                <li>Algorithms &middot; Data Modeling &middot; NoSQL</li>
+                <li>Software Production Engineering &middot; Enterprise Software Development</li>
+              </ul>
+            </div>
+            <div class="edu-node" aria-hidden="true"></div>
+            <div class="edu-year">2025 — 2027 &middot; Current</div>
           </div>
-        </div>
+
+          <div class="edu-item">
+            <div class="edu-card">
+              <h3>BTech, Computer Science &amp; Engineering (AIML)</h3>
+              <p class="edu-inst">Institute of Engineering and Management, Kolkata</p>
+              <ul class="edu-courses">
+                <li>Operating Systems &middot; Computer Networks &middot; DBMS</li>
+                <li>Data Structures &amp; Algorithms &middot; OOP</li>
+                <li>Machine Learning &middot; Deep Learning</li>
+              </ul>
+            </div>
+            <div class="edu-node" aria-hidden="true"></div>
+            <div class="edu-year">2021 — 2025</div>
+          </div>
+
         </div>
       </section>
 
