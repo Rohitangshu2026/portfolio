@@ -1031,9 +1031,9 @@
       <a href="#top" class="nav-mark">rb&#47;&#47;</a>
       <div class="nav-links">
         <a href="#about"     data-section="about">About</a>
+        <a href="#education" data-section="education">Education</a>
         <a href="#skills"    data-section="skills">Skills</a>
         <a href="#projects"  data-section="projects">Projects</a>
-        <a href="#education" data-section="education">Education</a>
         <a href="#contact"   data-section="contact">Contact</a>
         <button id="theme-toggle" class="always" onclick="toggleTheme()" aria-label="Toggle dark mode">
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1116,6 +1116,47 @@
             I'm looking for software engineering opportunities across backend, distributed
             systems, platform engineering, and infrastructure.
           </p>
+        </div>
+      </section>
+
+      <!-- ============================ EDUCATION ============================ -->
+      <section id="education" class="section reveal">
+        <div class="section-head">
+          <h2>Education</h2>
+          <div class="rule" aria-hidden="true"></div>
+        </div>
+
+        <div class="edu-wrap">
+
+          <div class="edu-item">
+            <div class="edu-card">
+              <h3>MTech, Computer Science &amp; Engineering</h3>
+              <p class="edu-inst">International Institute of Information Technology, Bangalore</p>
+              <ul class="edu-courses">
+                <li>Distributed Computing &middot; Cloud Computing &middot; System Software</li>
+                <li>Software Architecture &amp; Design Practices &middot; Design Patterns</li>
+                <li>Algorithms &middot; Data Modeling &middot; NoSQL</li>
+                <li>Software Production Engineering &middot; Enterprise Software Development</li>
+              </ul>
+            </div>
+            <div class="edu-node" aria-hidden="true"></div>
+            <div class="edu-year">2025 — 2027 &middot; Current</div>
+          </div>
+
+          <div class="edu-item">
+            <div class="edu-card">
+              <h3>BTech, Computer Science &amp; Engineering (AIML)</h3>
+              <p class="edu-inst">Institute of Engineering and Management, Kolkata</p>
+              <ul class="edu-courses">
+                <li>Operating Systems &middot; Computer Networks &middot; DBMS</li>
+                <li>Data Structures &amp; Algorithms &middot; OOP</li>
+                <li>Machine Learning &middot; Deep Learning</li>
+              </ul>
+            </div>
+            <div class="edu-node" aria-hidden="true"></div>
+            <div class="edu-year">2021 — 2025</div>
+          </div>
+
         </div>
       </section>
 
@@ -1469,47 +1510,6 @@
         </ul>
       </section>
 
-      <!-- ============================ EDUCATION ============================ -->
-      <section id="education" class="section reveal">
-        <div class="section-head">
-          <h2>Education</h2>
-          <div class="rule" aria-hidden="true"></div>
-        </div>
-
-        <div class="edu-wrap">
-
-          <div class="edu-item">
-            <div class="edu-card">
-              <h3>MTech, Computer Science &amp; Engineering</h3>
-              <p class="edu-inst">International Institute of Information Technology, Bangalore</p>
-              <ul class="edu-courses">
-                <li>Distributed Computing &middot; Cloud Computing &middot; System Software</li>
-                <li>Software Architecture &amp; Design Practices &middot; Design Patterns</li>
-                <li>Algorithms &middot; Data Modeling &middot; NoSQL</li>
-                <li>Software Production Engineering &middot; Enterprise Software Development</li>
-              </ul>
-            </div>
-            <div class="edu-node" aria-hidden="true"></div>
-            <div class="edu-year">2025 — 2027 &middot; Current</div>
-          </div>
-
-          <div class="edu-item">
-            <div class="edu-card">
-              <h3>BTech, Computer Science &amp; Engineering (AIML)</h3>
-              <p class="edu-inst">Institute of Engineering and Management, Kolkata</p>
-              <ul class="edu-courses">
-                <li>Operating Systems &middot; Computer Networks &middot; DBMS</li>
-                <li>Data Structures &amp; Algorithms &middot; OOP</li>
-                <li>Machine Learning &middot; Deep Learning</li>
-              </ul>
-            </div>
-            <div class="edu-node" aria-hidden="true"></div>
-            <div class="edu-year">2021 — 2025</div>
-          </div>
-
-        </div>
-      </section>
-
       <!-- ============================ CONTACT ============================ -->
       <section id="contact" class="section reveal">
         <div class="contact-inner">
@@ -1619,7 +1619,7 @@
 
       /* ---------- Active nav link ---------- */
       const navLinks = document.querySelectorAll('.nav-links a[data-section]');
-      const sections = ['about', 'skills', 'projects', 'education', 'contact']
+      const sections = ['about', 'education', 'skills', 'projects', 'contact']
         .map(id => document.getElementById(id))
         .filter(Boolean);
 
