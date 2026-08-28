@@ -749,34 +749,6 @@
     .project-link:hover .arrow { transform: translateX(3px); }
 
     /* ==========================================================
-       Engineering Practice
-       ========================================================== */
-    .practice-list {
-      list-style: none;
-      margin: 0 auto;
-      padding: 0;
-      max-width: 680px;
-      display: grid;
-      gap: 1.6rem;
-      text-align: center;
-    }
-
-    .practice-list b {
-      font-family: var(--mono);
-      font-size: .92rem;
-      font-weight: 500;
-      color: var(--text);
-      display: block;
-      margin-bottom: .15rem;
-    }
-
-    .practice-list p {
-      margin: 0;
-      font-size: .95rem;
-      line-height: 1.7;
-    }
-
-    /* ==========================================================
        Education — compact
        ========================================================== */
     .edu-wrap {
@@ -1469,55 +1441,6 @@
           </article>
 
         </div>
-      </section>
-
-      <!-- ====================== ENGINEERING PRACTICE ====================== -->
-      <section id="practice" class="section reveal">
-        <div class="section-head">
-          <h2>Engineering Practice</h2>
-          <div class="rule" aria-hidden="true"></div>
-        </div>
-        <ul class="practice-list">
-          <li>
-            <div>
-              <b>Correctness first</b>
-              <p>Failure, concurrency, and validation are handled explicitly — record-level locks in
-                 the banking server, three validation layers in the pipeline framework, nine ordered
-                 safety gates before any automated remediation runs.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <b>Test what matters</b>
-              <p>Unit and integration tests where they earn their keep: 44 tests over the KV store's
-                 data structures and wire format, 54 covering pipeline action validation, 40 test
-                 modules including chaos and end-to-end runs on the DevOps platform.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <b>Understand before abstracting</b>
-              <p>I build the lower-level implementation first — a hash table, an event loop, a wire
-                 protocol, a lock discipline — so I know how the abstraction behaves when it breaks.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <b>Document decisions</b>
-              <p>Architecture, trade-offs, and failure modes go in the repository — the KV store ships
-                 a design document covering its concurrency model, wire format, and rehashing strategy
-                 alongside the code.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <b>Automate feedback</b>
-              <p>CI catches what review misses. The KV store builds across two operating systems, two
-                 compilers, and two build types on every push, with dedicated
-                 AddressSanitizer, UndefinedBehaviorSanitizer, and ThreadSanitizer jobs.</p>
-            </div>
-          </li>
-        </ul>
       </section>
 
       <!-- ============================ CONTACT ============================ -->
