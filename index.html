@@ -468,65 +468,174 @@
     /* ==========================================================
        Projects
        ========================================================== */
-    .projects-list { max-width: 780px; margin: 0 auto; }
-
-    .project {
-      padding: 2.8rem 0;
-      border-bottom: 1px solid var(--border);
-      text-align: center;
+    /* ---------- Featured projects: alternating two-column ---------- */
+    .projects-featured {
+      display: grid;
+      gap: 4.5rem;
+      margin-bottom: 4.5rem;
     }
-    .projects-list > .project:first-child { border-top: 1px solid var(--border); }
 
-    .project-head {
-      display: flex;
-      flex-direction: column;
+    .project-featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
       align-items: center;
-      gap: .45rem;
-      margin-bottom: .5rem;
+      text-align: left;
     }
 
-    .project-title {
+    .pf-panel { grid-column: 1; grid-row: 1; }
+    .pf-info  { grid-column: 2; grid-row: 1; }
+    .project-featured:nth-child(even) .pf-panel { grid-column: 2; }
+    .project-featured:nth-child(even) .pf-info  { grid-column: 1; }
+
+    /* The spec panel — a fact sheet in place of a screenshot */
+    .pf-panel {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      overflow: hidden;
+      transition: border-color .25s ease;
+    }
+
+    .project-featured:hover .pf-panel { border-color: var(--hairline); }
+
+    .pf-panel-head {
       display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: .7rem;
-      flex-wrap: wrap;
-    }
-
-    .project h3 {
-      font-size: clamp(1.1rem, 2.6vw, 1.35rem);
-      transition: color .2s ease;
-    }
-
-    .project:hover h3 { color: var(--accent); }
-
-    .project-year {
+      align-items: center;
+      gap: .55rem;
       font-family: var(--mono);
       font-size: .72rem;
       color: var(--muted);
-      letter-spacing: .06em;
-      white-space: nowrap;
+      padding: .75rem 1.15rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
     }
 
-    .project-chips {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: .4rem;
-      margin: .9rem 0 1.1rem;
+    .pf-panel-head::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
     }
 
-    .chip {
+    .pf-specs { margin: 0; padding: .3rem 1.15rem .9rem; }
+
+    .pf-specs > div {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: .9rem;
+      padding: .6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .pf-specs > div:last-child { border-bottom: none; }
+
+    .pf-specs dt {
       font-family: var(--mono);
-      font-size: .69rem;
+      font-size: .66rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
       color: var(--muted);
-      padding: .22rem .6rem;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      transition: color .2s ease, border-color .2s ease;
+      padding-top: .12rem;
     }
 
-    .project:hover .chip { color: var(--text); border-color: var(--hairline); }
+    .pf-specs dd {
+      font-family: var(--mono);
+      font-size: .74rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 0;
+    }
+
+    /* Info side */
+    .pf-eyebrow {
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--accent);
+      margin: 0 0 .55rem;
+    }
+
+    .project-featured h3 {
+      font-size: clamp(1.25rem, 2.7vw, 1.6rem);
+      margin-bottom: 1.1rem;
+      transition: color .2s ease;
+    }
+    .project-featured:hover h3 { color: var(--accent); }
+
+    .pf-body {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.3rem 1.45rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .pf-body .project-points {
+      max-width: none;
+      margin: 0;
+      text-align: left;
+    }
+
+    .pf-body .project-points li {
+      padding-left: 1.3rem;
+      text-indent: -1.3rem;
+    }
+
+    .pf-tech {
+      font-family: var(--mono);
+      font-size: .72rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0 0 1.2rem;
+    }
+
+    /* ---------- Compact list for the remaining projects ---------- */
+    .projects-compact {
+      max-width: 860px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+    }
+
+    .project-compact {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .5rem 2rem;
+      padding: 1.6rem .3rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      transition: background .25s ease;
+    }
+
+    .project-compact:hover { background: var(--accent-soft); }
+
+    .project-compact h3 {
+      font-size: 1.02rem;
+      grid-column: 1;
+      transition: color .2s ease;
+    }
+    .project-compact:hover h3 { color: var(--accent); }
+
+    .project-compact .project-link { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+
+    .pc-desc {
+      grid-column: 1;
+      font-size: .9rem;
+      line-height: 1.65;
+      color: var(--muted);
+      margin: .35rem 0 .5rem;
+    }
+
+    .pc-tech {
+      grid-column: 1;
+      font-family: var(--mono);
+      font-size: .68rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+
+
+
 
     /* Bullet list — the "▹" marker */
     .project-points {
@@ -561,31 +670,8 @@
     }
 
     /* Evidence badges — only where the repo actually backs them */
-    .evidence {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: .4rem .9rem;
-      margin-bottom: 1.3rem;
-      font-family: var(--mono);
-      font-size: .69rem;
-      color: var(--muted);
-    }
 
-    .evidence span {
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-    }
 
-    .evidence span::before {
-      content: '';
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      background: var(--accent);
-      opacity: .75;
-      flex-shrink: 0;
-    }
 
     .project-link {
       display: inline-flex;
@@ -848,6 +934,15 @@
 
       .edu-card,
       .edu-item:nth-child(even) .edu-card { grid-column: 2; grid-row: 2; }
+
+      /* Featured projects stack — info first, spec panel below */
+      .project-featured { grid-template-columns: 1fr; gap: 1.5rem; }
+      .pf-info,  .project-featured:nth-child(even) .pf-info  { grid-column: 1; grid-row: 1; }
+      .pf-panel, .project-featured:nth-child(even) .pf-panel { grid-column: 1; grid-row: 2; }
+      .projects-featured { gap: 3.5rem; margin-bottom: 3.5rem; }
+
+      .project-compact { grid-template-columns: 1fr; }
+      .project-compact .project-link { grid-column: 1; grid-row: auto; margin-top: .6rem; }
     }
 
     @media (max-width: 640px) {
@@ -935,13 +1030,6 @@
           <a class="btn" href="https://www.linkedin.com/in/rohitangshu-bose/" target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg>
             LinkedIn
-          </a>
-          <a class="btn" href="mailto:rbose2002@gmail.com">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-            Email
           </a>
         </div>
 
@@ -1068,260 +1156,217 @@
           <div class="rule" aria-hidden="true"></div>
         </div>
 
-        <div class="projects-list">
+        <!-- ---------- Featured ---------- -->
+        <div class="projects-featured">
 
-          <!-- 01 -->
-          <article class="project">
-            <div class="project-head">
-              <div class="project-title">
-                <h3>Redis-Style In-Memory KV Store</h3>
+          <article class="project-featured">
+            <div class="pf-panel">
+              <div class="pf-panel-head">mini-redis</div>
+              <dl class="pf-specs">
+                <div><dt>Language</dt><dd>C++17</dd></div>
+                <div><dt>Concurrency</dt><dd>single-threaded <code>poll()</code> event loop</dd></div>
+                <div><dt>Storage</dt><dd>intrusive hash table, incremental rehash</dd></div>
+                <div><dt>Tests</dt><dd>44 &middot; Catch2 + CTest</dd></div>
+                <div><dt>CI</dt><dd>2 OS &times; 2 compilers &times; 2 build types</dd></div>
+                <div><dt>Sanitizers</dt><dd>ASan &middot; UBSan &middot; TSan</dd></div>
+              </dl>
+            </div>
+            <div class="pf-info">
+              <p class="pf-eyebrow">Featured Project</p>
+              <h3>Redis-Style In-Memory KV Store</h3>
+              <div class="pf-body">
+                <ul class="project-points">
+                  <li>Built from scratch &mdash; the socket layer, binary wire protocol, response
+                      serializer and storage engine are all hand-written rather than assembled
+                      from libraries.</li>
+                  <li>Serves many concurrent connections from one <code>poll()</code> event loop
+                      with length-prefixed framing and request pipelining.</li>
+                  <li>The hash table rehashes incrementally so a growing keyspace never spikes
+                      latency; an AVL-tree-and-hash-map sorted set gives <code>O(log n)</code>
+                      range and rank queries.</li>
+                </ul>
               </div>
-              <span class="project-year">ONGOING</span>
+              <p class="pf-tech">C++17 &middot; TCP &middot; Event Loop &middot; CMake &middot; Catch2</p>
+              <a class="project-link" href="https://github.com/Rohitangshu2026/mini-redis" target="_blank" rel="noopener noreferrer">
+                View on GitHub <span class="arrow" aria-hidden="true">&rarr;</span>
+              </a>
             </div>
-            <div class="project-chips">
-              <span class="chip">C++17</span><span class="chip">TCP</span>
-              <span class="chip">Event Loop</span><span class="chip">Data Structures</span>
-              <span class="chip">CMake</span>
-            </div>
-            <ul class="project-points">
-              <li>Built an in-memory key–value store from scratch — the socket layer, binary wire
-                  protocol, response serializer, and storage engine are all hand-written rather
-                  than assembled from libraries.</li>
-              <li>Serves many concurrent connections from a single-threaded <code>poll()</code>
-                  event loop with length-prefixed framing and request pipelining, so every complete
-                  request buffered from one read is answered without a round trip.</li>
-              <li>Wrote an intrusive hash table that <strong>rehashes incrementally</strong>, so a
-                  growing keyspace never causes a latency spike, plus an AVL-tree-and-hash-map sorted
-                  set giving <code>O(log n)</code> range and rank queries.</li>
-              <li>Handles per-key TTL on a timer min-heap with both lazy and active expiry, and reaps
-                  idle connections against a monotonic clock.</li>
-            </ul>
-            <div class="evidence">
-              <span>44 unit tests · Catch2 + CTest</span>
-              <span>CI: Linux &amp; macOS × gcc &amp; clang × Debug &amp; Release</span>
-              <span>ASan / UBSan / TSan jobs</span>
-              <span>Architecture doc</span>
-            </div>
-            <a class="project-link" href="https://github.com/Rohitangshu2026/mini-redis" target="_blank" rel="noopener noreferrer">
-              View on GitHub <span class="arrow" aria-hidden="true">→</span>
-            </a>
           </article>
 
-          <!-- 02 -->
-          <article class="project">
-            <div class="project-head">
-              <div class="project-title">
-                <h3>Concurrent Banking Backend</h3>
+          <article class="project-featured">
+            <div class="pf-panel">
+              <div class="pf-panel-head">evently</div>
+              <dl class="pf-specs">
+                <div><dt>Stack</dt><dd>Spring Boot &middot; PostgreSQL 16 &middot; React</dd></div>
+                <div><dt>Auth</dt><dd>Ed25519 JWT &middot; Argon2id</dd></div>
+                <div><dt>Locking</dt><dd><code>SELECT &hellip; FOR UPDATE</code> per tier</dd></div>
+                <div><dt>Load test</dt><dd>200 buyers &rarr; exactly 50 sales, 150 rejected</dd></div>
+                <div><dt>Latency</dt><dd>p95 412 ms under full contention</dd></div>
+                <div><dt>Tests</dt><dd>16 integration &middot; real PostgreSQL</dd></div>
+              </dl>
+            </div>
+            <div class="pf-info">
+              <p class="pf-eyebrow">Featured Project</p>
+              <h3>Evently &mdash; Event Ticketing Platform</h3>
+              <div class="pf-body">
+                <ul class="project-points">
+                  <li>Full-stack ticketing platform: organizers create tiered events, attendees
+                      buy tickets, and staff validate entry by QR code at the door.</li>
+                  <li>The purchase path locks the tier row before the capacity check, so
+                      concurrent buyers serialize per tier while different tiers sell in
+                      parallel. A committed k6 run of 200 concurrent buyers against 50 seats
+                      settles at exactly 50 sales and 150 clean rejections.</li>
+                  <li>An <code>Idempotency-Key</code> header maps a retry back to the original
+                      ticket, so a client that times out and retries can never buy twice.</li>
+                  <li>Authentication built from scratch &mdash; Ed25519-signed access tokens,
+                      rotating refresh tokens with reuse detection, Argon2id hashing, and per-IP
+                      rate limiting.</li>
+                </ul>
               </div>
-              <span class="project-year">2025</span>
+              <p class="pf-tech">Java &middot; Spring Boot &middot; PostgreSQL &middot; React &middot; TypeScript &middot; Flyway &middot; k6</p>
+              <a class="project-link" href="https://github.com/Rohitangshu2026/evently" target="_blank" rel="noopener noreferrer">
+                View on GitHub <span class="arrow" aria-hidden="true">&rarr;</span>
+              </a>
             </div>
-            <div class="project-chips">
-              <span class="chip">C</span><span class="chip">POSIX Sockets</span>
-              <span class="chip">fcntl Locking</span><span class="chip">IPC</span>
-              <span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">React</span>
+          </article>
+
+          <article class="project-featured">
+            <div class="pf-panel">
+              <div class="pf-panel-head">data-pipeline-framework</div>
+              <dl class="pf-specs">
+                <div><dt>Language</dt><dd>Java</dd></div>
+                <div><dt>Execution</dt><dd>DAG &middot; Kahn&rsquo;s topological sort</dd></div>
+                <div><dt>Validation</dt><dd>XSD &middot; semantic &middot; runtime cycle check</dd></div>
+                <div><dt>Failure</dt><dd>configurable retry &amp; failure policies</dd></div>
+                <div><dt>Tests</dt><dd>54 &middot; JUnit</dd></div>
+                <div><dt>Build</dt><dd>Maven</dd></div>
+              </dl>
             </div>
-            <ul class="project-points">
-              <li>Built a multi-client banking server in C over raw POSIX sockets using a
-                  fork-per-client model, with <code>fcntl</code> record-level locking over
-                  binary-struct data files to keep transactions consistent under concurrent access.</li>
-              <li>Designed the concurrency control, inter-process communication, and safe shared-file
-                  access explicitly, without relying on framework-level abstractions.</li>
-              <li>Added a Spring Boot HTTP/JSON gateway in front of the C server so a browser can
-                  talk to it — the gateway holds one TCP connection per session and walks the
-                  server's menu state machine, leaving the original CLI protocol untouched.</li>
-              <li>Supports four roles with separate permissions — customer, employee, manager, and
-                  admin — covering accounts, transfers, loan approval workflow, and an audit log.</li>
-            </ul>
-            <div class="evidence">
-              <span>C server + Java gateway + React console</span>
-              <span>Record-level locking</span>
-              <span>Role-based access control</span>
+            <div class="pf-info">
+              <p class="pf-eyebrow">Featured Project</p>
+              <h3>Data Pipeline Framework</h3>
+              <div class="pf-body">
+                <ul class="project-points">
+                  <li>Turns XML configuration into a validated model, converts it into a DAG, and
+                      runs it through a stage-based orchestration engine.</li>
+                  <li>Validates in three layers &mdash; XSD for structure, semantic checks for
+                      logic, and runtime cycle detection &mdash; so invalid dependencies and
+                      cyclic pipelines fail with a clear error instead of hanging.</li>
+                  <li>Executes stages in dependency order using Kahn&rsquo;s topological sort,
+                      with configurable retry and failure policies per action.</li>
+                </ul>
+              </div>
+              <p class="pf-tech">Java &middot; DAG Execution &middot; XML / XSD &middot; Maven &middot; JUnit</p>
+              <a class="project-link" href="https://github.com/Rohitangshu2026/data-pipeline-framework" target="_blank" rel="noopener noreferrer">
+                View on GitHub <span class="arrow" aria-hidden="true">&rarr;</span>
+              </a>
             </div>
+          </article>
+
+          <article class="project-featured">
+            <div class="pf-panel">
+              <div class="pf-panel-head">mini-sql</div>
+              <dl class="pf-specs">
+                <div><dt>Language</dt><dd>C</dd></div>
+                <div><dt>Model</dt><dd>schema-driven rows, computed at runtime</dd></div>
+                <div><dt>Storage</dt><dd>4 KiB pages + pager cache</dd></div>
+                <div><dt>Persistence</dt><dd>flushed to a backing database file</dd></div>
+                <div><dt>Tests</dt><dd>black-box suite via CTest</dd></div>
+                <div><dt>Build</dt><dd>CMake</dd></div>
+              </dl>
+            </div>
+            <div class="pf-info">
+              <p class="pf-eyebrow">Featured Project</p>
+              <h3>mini-sql &mdash; SQLite-Style Engine</h3>
+              <div class="pf-body">
+                <ul class="project-points">
+                  <li>A database engine built one layer at a time in C: REPL &rarr; statement
+                      parser &rarr; executor &rarr; cursor &rarr; pager &rarr; disk.</li>
+                  <li>Row layout is computed at runtime from a schema rather than frozen into a
+                      compile-time struct &mdash; the decision that keeps <code>CREATE TABLE</code>
+                      and multiple tables reachable without a rewrite.</li>
+                  <li>Rows serialize into 4 KiB pages cached by a pager and flushed to a backing
+                      file, so data survives across runs. Reads and writes go through a cursor
+                      abstraction &mdash; the seam the B-tree slots into next.</li>
+                </ul>
+              </div>
+              <p class="pf-tech">C &middot; CMake &middot; CTest &middot; Systems Programming</p>
+              <a class="project-link" href="https://github.com/Rohitangshu2026/mini-sql" target="_blank" rel="noopener noreferrer">
+                View on GitHub <span class="arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- ---------- Also built ---------- -->
+        <div class="projects-compact">
+
+          <article class="project-compact">
+            <h3>Concurrent Banking Backend</h3>
+            <p class="pc-desc">Multi-client banking server in C over raw POSIX sockets using a
+              fork-per-client model, with <code>fcntl</code> record-level locking to keep
+              transactions consistent under concurrent access. A Spring Boot gateway fronts it so
+              a browser can talk to the C server.</p>
+            <p class="pc-tech">C &middot; POSIX Sockets &middot; fcntl &middot; IPC &middot; Java &middot; Spring Boot &middot; React</p>
             <a class="project-link" href="https://github.com/Rohitangshu2026/banking-management-system" target="_blank" rel="noopener noreferrer">
-              View on GitHub <span class="arrow" aria-hidden="true">→</span>
+              GitHub <span class="arrow" aria-hidden="true">&rarr;</span>
             </a>
           </article>
 
-          <!-- 03 -->
-          <article class="project">
-            <div class="project-head">
-              <div class="project-title">
-                <h3>Data Pipeline Framework</h3>
-              </div>
-              <span class="project-year">2026</span>
-            </div>
-            <div class="project-chips">
-              <span class="chip">Java</span><span class="chip">DAG Execution</span>
-              <span class="chip">XML / XSD</span><span class="chip">Kahn's Algorithm</span>
-              <span class="chip">Maven</span><span class="chip">JUnit</span>
-            </div>
-            <ul class="project-points">
-              <li>Built a modular Java pipeline engine that turns XML configuration into a validated
-                  model, converts it into a DAG, and runs it through a stage-based orchestration
-                  engine.</li>
-              <li>Validates in three layers — XSD for structure, semantic checks for logic, and
-                  runtime cycle detection — so invalid dependencies and cyclic pipelines fail with a
-                  clear error instead of hanging.</li>
-              <li>Executes stages in dependency order using Kahn's topological sort, with configurable
-                  retry and failure policies per action.</li>
-            </ul>
-            <div class="evidence">
-              <span>54 JUnit tests</span>
-              <span>Three-layer validation</span>
-              <span>Maven build</span>
-            </div>
-            <a class="project-link" href="https://github.com/Rohitangshu2026/data-pipeline-framework" target="_blank" rel="noopener noreferrer">
-              View on GitHub <span class="arrow" aria-hidden="true">→</span>
-            </a>
-          </article>
-
-          <!-- 04 -->
-          <article class="project">
-            <div class="project-head">
-              <div class="project-title">
-                <h3>AI DevOps Copilot</h3>
-              </div>
-              <span class="project-year">2026</span>
-            </div>
-            <div class="project-chips">
-              <span class="chip">Python</span><span class="chip">FastAPI</span>
-              <span class="chip">Kubernetes</span><span class="chip">Elasticsearch</span>
-              <span class="chip">GitLab CI</span><span class="chip">Ansible</span><span class="chip">Vault</span>
-            </div>
-            <ul class="project-points">
-              <li>Built a DevOps platform that watches Kubernetes events such as
-                  <code>OOMKilled</code> and <code>CrashLoopBackOff</code>, correlates them against
-                  application logs ingested through the ELK stack, and proposes remediation.</li>
-              <li>Designed a deterministic safety layer of nine ordered gates — anomaly detection,
-                  causality, decision policy, loop detection, idempotency locking, namespace
-                  isolation, severity, rate limiting, and action budget — that must all pass before
-                  any action executes.</li>
-              <li>High-impact operations require explicit human approval rather than autonomous
-                  execution, so the model's output is treated as an untrusted suggestion.</li>
-            </ul>
-            <div class="evidence">
-              <span>40 test modules · pytest</span>
-              <span>End-to-end &amp; chaos tests</span>
-              <span>GitLab CI · Docker · Ansible</span>
-            </div>
+          <article class="project-compact">
+            <h3>AI DevOps Copilot</h3>
+            <p class="pc-desc">Watches Kubernetes events such as <code>OOMKilled</code> and
+              <code>CrashLoopBackOff</code>, correlates them against logs, and proposes
+              remediation behind a deterministic layer of nine ordered safety gates. 40 pytest
+              modules including end-to-end and chaos tests.</p>
+            <p class="pc-tech">Python &middot; FastAPI &middot; Kubernetes &middot; Elasticsearch &middot; GitLab CI &middot; Ansible</p>
             <a class="project-link" href="https://github.com/Rohitangshu2026/ai-devops-copilot" target="_blank" rel="noopener noreferrer">
-              View on GitHub <span class="arrow" aria-hidden="true">→</span>
+              GitHub <span class="arrow" aria-hidden="true">&rarr;</span>
             </a>
           </article>
 
-          <!-- 05 -->
-          <article class="project">
-            <div class="project-head">
-              <div class="project-title">
-                <h3>Academic ERP — Outreach Module</h3>
-              </div>
-              <span class="project-year">2025</span>
-            </div>
-            <div class="project-chips">
-              <span class="chip">Java</span><span class="chip">Spring Boot</span>
-              <span class="chip">Spring Security</span><span class="chip">OAuth2</span>
-              <span class="chip">JWT</span><span class="chip">MySQL</span><span class="chip">TypeScript</span>
-            </div>
-            <ul class="project-points">
-              <li>Built a Spring Boot backend for registering external outreach organizations and
-                  managing their HR representatives, exposing validated REST APIs to a TypeScript
-                  frontend.</li>
-              <li>Implemented authentication with Spring Security — an OAuth2 client flow, a JWT
-                  authentication filter, and cookie-based token handling — over a layered
-                  controller / service / repository structure with DTOs and mappers.</li>
-              <li>Centralised error handling through a global exception handler and documented the
-                  API surface with OpenAPI.</li>
-            </ul>
-            <div class="evidence">
-              <span>OAuth2 + JWT authentication</span>
-              <span>OpenAPI documented</span>
-              <span>Layered service architecture</span>
-            </div>
-            <a class="project-link" href="https://github.com/Rohitangshu2026/academic-erp-outreach-management" target="_blank" rel="noopener noreferrer">
-              View on GitHub <span class="arrow" aria-hidden="true">→</span>
-            </a>
-          </article>
-
-          <!-- 06 -->
-          <article class="project">
-            <div class="project-head">
-              <div class="project-title">
-                <h3>NASA Log ETL Framework</h3>
-              </div>
-              <span class="project-year">2026</span>
-            </div>
-            <div class="project-chips">
-              <span class="chip">Java</span><span class="chip">Hadoop</span>
-              <span class="chip">MapReduce</span><span class="chip">Pig</span>
-              <span class="chip">Hive</span><span class="chip">MongoDB</span><span class="chip">MySQL</span>
-            </div>
-            <ul class="project-points">
-              <li>Built an ETL framework that parses NASA HTTP server logs through four
-                  interchangeable execution backends — MapReduce, Pig, Hive, and MongoDB — behind a
-                  single unified interface.</li>
-              <li>Splits input into configurable batches processed independently and rolled up
-                  globally in SQL, so results stay reproducible and traceable to a batch.</li>
-              <li>Shares one log parser and one MySQL reporting schema across all four backends,
-                  which makes engine comparison on identical workloads a fair test rather than an
-                  apples-to-oranges one.</li>
-            </ul>
-            <div class="evidence">
-              <span>Four interchangeable backends</span>
-              <span>Unified result schema</span>
-            </div>
+          <article class="project-compact">
+            <h3>NASA Log ETL Framework</h3>
+            <p class="pc-desc">Parses NASA HTTP server logs through four interchangeable execution
+              backends &mdash; MapReduce, Pig, Hive and MongoDB &mdash; behind one interface, with
+              a shared parser and MySQL reporting schema so engine comparison is a fair test.</p>
+            <p class="pc-tech">Java &middot; Hadoop &middot; MapReduce &middot; Pig &middot; Hive &middot; MongoDB &middot; MySQL</p>
             <a class="project-link" href="https://github.com/Rohitangshu2026/NoSQL/tree/main/Project/etl-framework" target="_blank" rel="noopener noreferrer">
-              View on GitHub <span class="arrow" aria-hidden="true">→</span>
+              GitHub <span class="arrow" aria-hidden="true">&rarr;</span>
             </a>
           </article>
 
-          <!-- 07 -->
-          <article class="project">
-            <div class="project-head">
-              <div class="project-title">
-                <h3>End-to-End CI/CD Pipeline</h3>
-              </div>
-              <span class="project-year">2026</span>
-            </div>
-            <div class="project-chips">
-              <span class="chip">Java</span><span class="chip">Jenkins</span>
-              <span class="chip">Docker</span><span class="chip">Ansible</span>
-              <span class="chip">Maven</span><span class="chip">JUnit</span>
-            </div>
-            <ul class="project-points">
-              <li>Built a fully automated pipeline triggered by GitHub webhooks that runs
-                  build → test → package → containerize → deploy through Jenkins.</li>
-              <li>Gates deployment behind a JUnit suite, then containerizes with Docker and deploys
-                  via Ansible playbooks, so a failing test stops the release rather than shipping it.</li>
-            </ul>
-            <div class="evidence">
-              <span>17 JUnit tests</span>
-              <span>Jenkinsfile · Dockerfile · Ansible</span>
-            </div>
+          <article class="project-compact">
+            <h3>Academic ERP &mdash; Outreach Module</h3>
+            <p class="pc-desc">Spring Boot backend for registering outreach organizations and
+              managing HR representatives, with OAuth2 and JWT authentication over a layered
+              controller / service / repository structure, and an OpenAPI-documented surface.</p>
+            <p class="pc-tech">Java &middot; Spring Boot &middot; Spring Security &middot; OAuth2 &middot; MySQL &middot; TypeScript</p>
+            <a class="project-link" href="https://github.com/Rohitangshu2026/academic-erp-outreach-management" target="_blank" rel="noopener noreferrer">
+              GitHub <span class="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </article>
+
+          <article class="project-compact">
+            <h3>End-to-End CI/CD Pipeline</h3>
+            <p class="pc-desc">Automated pipeline triggered by GitHub webhooks running
+              build &rarr; test &rarr; package &rarr; containerize &rarr; deploy through Jenkins,
+              gated behind a 17-test JUnit suite so a failing test stops the release.</p>
+            <p class="pc-tech">Java &middot; Jenkins &middot; Docker &middot; Ansible &middot; Maven &middot; JUnit</p>
             <a class="project-link" href="https://github.com/Rohitangshu2026/scientific-calculator-ci-cd" target="_blank" rel="noopener noreferrer">
-              View on GitHub <span class="arrow" aria-hidden="true">→</span>
+              GitHub <span class="arrow" aria-hidden="true">&rarr;</span>
             </a>
           </article>
 
-          <!-- 08 -->
-          <article class="project">
-            <div class="project-head">
-              <div class="project-title">
-                <h3>POSIX-Compliant <code>ls</code> Utility</h3>
-              </div>
-              <span class="project-year">2026</span>
-            </div>
-            <div class="project-chips">
-              <span class="chip">C</span><span class="chip">POSIX</span><span class="chip">Filesystem</span>
-            </div>
-            <ul class="project-points">
-              <li>Reimplemented the Unix <code>ls</code> command in C against POSIX system calls,
-                  covering directory traversal, file metadata inspection, and option parsing for core
-                  flags including <code>-a</code> and <code>-t</code>.</li>
-              <li>Uses <code>lstat()</code> so symbolic links are reported rather than followed, and
-                  keeps traversal, sorting, and output formatting in separate units.</li>
-            </ul>
+          <article class="project-compact">
+            <h3>POSIX-Compliant <code>ls</code> Utility</h3>
+            <p class="pc-desc">Unix <code>ls</code> reimplemented in C against POSIX system calls
+              &mdash; directory traversal, metadata inspection, and option parsing for core flags,
+              using <code>lstat()</code> so symlinks are reported rather than followed.</p>
+            <p class="pc-tech">C &middot; POSIX &middot; Filesystem</p>
             <a class="project-link" href="https://github.com/Rohitangshu2026/ls-from-scratch" target="_blank" rel="noopener noreferrer">
-              View on GitHub <span class="arrow" aria-hidden="true">→</span>
+              GitHub <span class="arrow" aria-hidden="true">&rarr;</span>
             </a>
           </article>
 
