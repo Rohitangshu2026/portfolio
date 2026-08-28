@@ -159,11 +159,6 @@
       transition: color .2s ease;
     }
 
-    .nav-links a .idx {
-      color: var(--accent);
-      margin-right: .35rem;
-    }
-
     .nav-links a:hover { color: var(--text); }
     .nav-links a.is-active { color: var(--text); }
 
@@ -225,33 +220,24 @@
       padding: 6.5rem 0 0;
     }
 
-    /* Numbered section heading + trailing rule */
+    /* Centered section heading with a short accent rule beneath */
     .section-head {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 2.6rem;
+      gap: .95rem;
+      margin-bottom: 2.8rem;
+      text-align: center;
     }
 
     .section-head h2 {
       font-size: clamp(1.5rem, 3.2vw, 2rem);
-      white-space: nowrap;
-      display: flex;
-      align-items: baseline;
-      gap: .6rem;
-    }
-
-    .section-head h2 .num {
-      font-size: .95rem;
-      font-weight: 500;
-      color: var(--accent);
     }
 
     .section-head .rule {
-      flex: 1;
+      width: 44px;
       height: 1px;
-      background: var(--border);
-      min-width: 40px;
+      background: var(--accent);
     }
 
     /* ==========================================================
@@ -371,7 +357,9 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 1.3rem;
-      max-width: 780px;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
     }
 
     .about-grid p {
@@ -388,13 +376,12 @@
     /* ==========================================================
        Skills — grouped pill rows
        ========================================================== */
+    .skills-wrap { max-width: 800px; margin: 0 auto; }
+
     .skill-group {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 1.5rem;
-      padding: 1.5rem 0;
+      padding: 1.6rem 0;
       border-bottom: 1px solid var(--border);
-      align-items: start;
+      text-align: center;
     }
     .skill-group:first-child { border-top: 1px solid var(--border); }
 
@@ -403,13 +390,14 @@
       font-weight: 500;
       color: var(--text);
       letter-spacing: .01em;
-      padding-top: .2rem;
+      margin-bottom: .85rem;
     }
 
     .pill-row {
       display: flex;
       flex-wrap: wrap;
       gap: .45rem;
+      justify-content: center;
     }
 
     .pill {
@@ -448,11 +436,16 @@
 
     .focus-cell:hover { background: var(--surface); }
 
+    .focus-cell {
+      text-align: center;
+    }
+
     .focus-cell h3 {
       font-size: 1rem;
       margin-bottom: .8rem;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: .55rem;
     }
 
@@ -475,33 +468,29 @@
     /* ==========================================================
        Projects
        ========================================================== */
+    .projects-list { max-width: 780px; margin: 0 auto; }
+
     .project {
-      padding: 2.6rem 0;
+      padding: 2.8rem 0;
       border-bottom: 1px solid var(--border);
+      text-align: center;
     }
     .projects-list > .project:first-child { border-top: 1px solid var(--border); }
 
     .project-head {
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
+      gap: .45rem;
       margin-bottom: .5rem;
     }
 
     .project-title {
       display: flex;
       align-items: baseline;
+      justify-content: center;
       gap: .7rem;
       flex-wrap: wrap;
-    }
-
-    .project-num {
-      font-family: var(--mono);
-      font-size: .8rem;
-      color: var(--accent);
-      flex-shrink: 0;
     }
 
     .project h3 {
@@ -522,8 +511,9 @@
     .project-chips {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: .4rem;
-      margin: .9rem 0 1rem;
+      margin: .9rem 0 1.1rem;
     }
 
     .chip {
@@ -541,27 +531,24 @@
     /* Bullet list — the "▹" marker */
     .project-points {
       list-style: none;
-      margin: 0 0 1.1rem;
+      margin: 0 auto 1.3rem;
       padding: 0;
-      max-width: 760px;
+      max-width: 640px;
     }
 
     .project-points li {
-      position: relative;
-      padding-left: 1.5rem;
-      margin-bottom: .6rem;
+      margin-bottom: .85rem;
       color: var(--muted);
       font-size: .96rem;
       line-height: 1.75;
     }
 
+    .project-points li:last-child { margin-bottom: 0; }
+
     .project-points li::before {
       content: '▹';
-      position: absolute;
-      left: 0;
-      top: 0;
       color: var(--accent);
-      font-size: 1rem;
+      margin-right: .45rem;
     }
 
     .project-points code {
@@ -577,8 +564,9 @@
     .evidence {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: .4rem .9rem;
-      margin-bottom: 1.1rem;
+      margin-bottom: 1.3rem;
       font-family: var(--mono);
       font-size: .69rem;
       color: var(--muted);
@@ -620,25 +608,12 @@
        ========================================================== */
     .practice-list {
       list-style: none;
-      margin: 0;
+      margin: 0 auto;
       padding: 0;
-      max-width: 820px;
+      max-width: 680px;
       display: grid;
-      gap: 1.15rem;
-    }
-
-    .practice-list li {
-      display: grid;
-      grid-template-columns: 26px 1fr;
-      gap: .9rem;
-      align-items: start;
-    }
-
-    .practice-list .n {
-      font-family: var(--mono);
-      font-size: .72rem;
-      color: var(--accent);
-      padding-top: .28rem;
+      gap: 1.6rem;
+      text-align: center;
     }
 
     .practice-list b {
@@ -659,12 +634,12 @@
     /* ==========================================================
        Education — compact
        ========================================================== */
+    .edu-wrap { max-width: 720px; margin: 0 auto; }
+
     .edu-item {
-      display: grid;
-      grid-template-columns: 190px 1fr;
-      gap: 1.5rem;
-      padding: 1.4rem 0;
+      padding: 1.6rem 0;
       border-bottom: 1px solid var(--border);
+      text-align: center;
     }
     .edu-item:first-child { border-top: 1px solid var(--border); }
 
@@ -673,7 +648,7 @@
       font-size: .74rem;
       color: var(--accent);
       letter-spacing: .03em;
-      padding-top: .2rem;
+      margin-bottom: .5rem;
     }
 
     .edu-item h3 {
@@ -743,10 +718,11 @@
       font-size: .72rem;
       color: var(--muted);
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
-      gap: .8rem;
+      text-align: center;
+      gap: 1rem;
     }
 
     .footer-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
@@ -767,11 +743,9 @@
        Responsive
        ========================================================== */
     @media (max-width: 860px) {
-      .nav-links a .idx { display: none; }
       .nav-links { gap: 1rem; }
       .focus-grid { grid-template-columns: 1fr; }
-      .skill-group { grid-template-columns: 1fr; gap: .8rem; padding: 1.3rem 0; }
-      .edu-item { grid-template-columns: 1fr; gap: .5rem; }
+      .skill-group { padding: 1.3rem 0; }
     }
 
     @media (max-width: 640px) {
@@ -780,16 +754,13 @@
       .section { padding-top: 4.5rem; }
       .container { padding: 0 1.1rem; }
       .hero { min-height: auto; padding: 3.5rem 0 3rem; }
-      .project { padding: 2rem 0; }
-      .project-head { flex-direction: column; align-items: flex-start; gap: .3rem; }
-      footer { flex-direction: column; align-items: flex-start; }
+      .project { padding: 2.2rem 0; }
+      footer { flex-direction: column; align-items: center; text-align: center; }
     }
 
     @media (max-width: 380px) {
       .hero-actions { flex-direction: column; width: 100%; }
       .hero-actions .btn { width: 100%; justify-content: center; }
-      .practice-list li { grid-template-columns: 1fr; gap: .2rem; }
-      .practice-list .n { display: none; }
     }
 
     /* ==========================================================
@@ -815,11 +786,11 @@
     <nav class="nav" aria-label="Primary">
       <a href="#top" class="nav-mark">rb&#47;&#47;</a>
       <div class="nav-links">
-        <a href="#about"     data-section="about"><span class="idx">01.</span>About</a>
-        <a href="#skills"    data-section="skills"><span class="idx">02.</span>Skills</a>
-        <a href="#projects"  data-section="projects"><span class="idx">03.</span>Projects</a>
-        <a href="#education" data-section="education"><span class="idx">04.</span>Education</a>
-        <a href="#contact"   data-section="contact"><span class="idx">05.</span>Contact</a>
+        <a href="#about"     data-section="about">About</a>
+        <a href="#skills"    data-section="skills">Skills</a>
+        <a href="#projects"  data-section="projects">Projects</a>
+        <a href="#education" data-section="education">Education</a>
+        <a href="#contact"   data-section="contact">Contact</a>
         <button id="theme-toggle" class="always" onclick="toggleTheme()" aria-label="Toggle dark mode">
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -882,7 +853,7 @@
       <!-- ============================ ABOUT ============================ -->
       <section id="about" class="section reveal">
         <div class="section-head">
-          <h2><span class="num">01.</span> About</h2>
+          <h2>About</h2>
           <div class="rule" aria-hidden="true"></div>
         </div>
         <div class="about-grid">
@@ -914,10 +885,11 @@
       <!-- ============================ SKILLS ============================ -->
       <section id="skills" class="section reveal">
         <div class="section-head">
-          <h2><span class="num">02.</span> Skills</h2>
+          <h2>Skills</h2>
           <div class="rule" aria-hidden="true"></div>
         </div>
 
+        <div class="skills-wrap">
         <div class="skill-group">
           <h3>Languages</h3>
           <div class="pill-row">
@@ -958,6 +930,7 @@
             <span class="pill">GitHub Actions</span>
           </div>
         </div>
+        </div>
       </section>
 
       <!-- ======================= ENGINEERING FOCUS ======================= -->
@@ -989,7 +962,7 @@
       <!-- ============================ PROJECTS ============================ -->
       <section id="projects" class="section reveal">
         <div class="section-head">
-          <h2><span class="num">03.</span> Projects</h2>
+          <h2>Projects</h2>
           <div class="rule" aria-hidden="true"></div>
         </div>
 
@@ -999,7 +972,6 @@
           <article class="project">
             <div class="project-head">
               <div class="project-title">
-                <span class="project-num">01.</span>
                 <h3>Redis-Style In-Memory KV Store</h3>
               </div>
               <span class="project-year">ONGOING</span>
@@ -1037,7 +1009,6 @@
           <article class="project">
             <div class="project-head">
               <div class="project-title">
-                <span class="project-num">02.</span>
                 <h3>Concurrent Banking Backend</h3>
               </div>
               <span class="project-year">2025</span>
@@ -1073,7 +1044,6 @@
           <article class="project">
             <div class="project-head">
               <div class="project-title">
-                <span class="project-num">03.</span>
                 <h3>Data Pipeline Framework</h3>
               </div>
               <span class="project-year">2026</span>
@@ -1107,7 +1077,6 @@
           <article class="project">
             <div class="project-head">
               <div class="project-title">
-                <span class="project-num">04.</span>
                 <h3>AI DevOps Copilot</h3>
               </div>
               <span class="project-year">2026</span>
@@ -1142,7 +1111,6 @@
           <article class="project">
             <div class="project-head">
               <div class="project-title">
-                <span class="project-num">05.</span>
                 <h3>Academic ERP — Outreach Module</h3>
               </div>
               <span class="project-year">2025</span>
@@ -1176,7 +1144,6 @@
           <article class="project">
             <div class="project-head">
               <div class="project-title">
-                <span class="project-num">06.</span>
                 <h3>NASA Log ETL Framework</h3>
               </div>
               <span class="project-year">2026</span>
@@ -1209,7 +1176,6 @@
           <article class="project">
             <div class="project-head">
               <div class="project-title">
-                <span class="project-num">07.</span>
                 <h3>End-to-End CI/CD Pipeline</h3>
               </div>
               <span class="project-year">2026</span>
@@ -1238,7 +1204,6 @@
           <article class="project">
             <div class="project-head">
               <div class="project-title">
-                <span class="project-num">08.</span>
                 <h3>POSIX-Compliant <code>ls</code> Utility</h3>
               </div>
               <span class="project-year">2026</span>
@@ -1269,7 +1234,6 @@
         </div>
         <ul class="practice-list">
           <li>
-            <span class="n" aria-hidden="true">01</span>
             <div>
               <b>Correctness first</b>
               <p>Failure, concurrency, and validation are handled explicitly — record-level locks in
@@ -1278,7 +1242,6 @@
             </div>
           </li>
           <li>
-            <span class="n" aria-hidden="true">02</span>
             <div>
               <b>Test what matters</b>
               <p>Unit and integration tests where they earn their keep: 44 tests over the KV store's
@@ -1287,7 +1250,6 @@
             </div>
           </li>
           <li>
-            <span class="n" aria-hidden="true">03</span>
             <div>
               <b>Understand before abstracting</b>
               <p>I build the lower-level implementation first — a hash table, an event loop, a wire
@@ -1295,7 +1257,6 @@
             </div>
           </li>
           <li>
-            <span class="n" aria-hidden="true">04</span>
             <div>
               <b>Document decisions</b>
               <p>Architecture, trade-offs, and failure modes go in the repository — the KV store ships
@@ -1304,7 +1265,6 @@
             </div>
           </li>
           <li>
-            <span class="n" aria-hidden="true">05</span>
             <div>
               <b>Automate feedback</b>
               <p>CI catches what review misses. The KV store builds across two operating systems, two
@@ -1318,10 +1278,11 @@
       <!-- ============================ EDUCATION ============================ -->
       <section id="education" class="section reveal">
         <div class="section-head">
-          <h2><span class="num">04.</span> Education</h2>
+          <h2>Education</h2>
           <div class="rule" aria-hidden="true"></div>
         </div>
 
+        <div class="edu-wrap">
         <div class="edu-item">
           <div class="edu-year">2025 — 2027 &middot; Current</div>
           <div>
@@ -1347,12 +1308,13 @@
             </p>
           </div>
         </div>
+        </div>
       </section>
 
       <!-- ============================ CONTACT ============================ -->
       <section id="contact" class="section reveal">
         <div class="contact-inner">
-          <p class="contact-eyebrow"><span class="num">05.</span> Contact</p>
+          <p class="contact-eyebrow">Contact</p>
           <h2>Let's build reliable systems</h2>
           <p>
             I'm interested in software engineering opportunities across backend, distributed
