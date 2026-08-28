@@ -38,6 +38,7 @@
       --accent:       #8b5e34;
       --accent-soft:  rgba(139, 94, 52, 0.08);
       --photo-shadow: 0 24px 50px -24px rgba(26, 22, 20, 0.28);
+      --skill-icon-bright: 0.85;
 
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
       --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -54,6 +55,7 @@
       --accent:       #d4a574;
       --accent-soft:  rgba(212, 165, 116, 0.10);
       --photo-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.7);
+      --skill-icon-bright: 1.6;
     }
 
     * { box-sizing: border-box; }
@@ -413,43 +415,63 @@
     /* ==========================================================
        Skills — grouped pill rows
        ========================================================== */
-    .skills-wrap { max-width: 800px; margin: 0 auto; }
-
-    .skill-group {
-      padding: 1.6rem 0;
+    .skills-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
+      margin-top: 1rem;
+    }
+
+    .skill-cell {
+      padding: 2.2rem 1.2rem;
       text-align: center;
-    }
-    .skill-group:first-child { border-top: 1px solid var(--border); }
-
-    .skill-group h3 {
-      font-size: .92rem;
-      font-weight: 500;
-      color: var(--text);
-      letter-spacing: .01em;
-      margin-bottom: .85rem;
-    }
-
-    .pill-row {
+      border-right: 1px solid var(--border);
       display: flex;
-      flex-wrap: wrap;
-      gap: .45rem;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+      transition: background .3s ease;
+      cursor: default;
     }
 
-    .pill {
+    .skill-cell:last-child { border-right: none; }
+    .skill-cell:hover { background: var(--accent-soft); }
+
+    .skill-cell img {
+      width: 28px;
+      height: 28px;
+      opacity: 0.78;
+      filter: grayscale(1) brightness(var(--skill-icon-bright));
+      transition: opacity .3s ease, transform .4s ease, filter .35s ease;
+    }
+
+    .skill-cell:hover img { opacity: 1; transform: translateY(-3px); }
+
+    .skill-cell h3 {
+      font-size: 1.05rem;
+      margin: 0;
+    }
+
+    .skill-cell p {
       font-family: var(--mono);
-      font-size: .74rem;
+      font-size: 0.72rem;
       color: var(--muted);
-      padding: .3rem .7rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      transition: color .2s ease, border-color .2s ease;
+      margin: 0;
+      line-height: 1.75;
     }
 
-    .skill-group:hover .pill {
-      color: var(--text);
-      border-color: var(--hairline);
+    @media (max-width: 900px) {
+      .skills-row { grid-template-columns: repeat(2, 1fr); }
+      .skill-cell { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+      .skill-cell:nth-child(2n) { border-right: none; }
+      .skill-cell:last-child { border-bottom: none; }
+    }
+
+    @media (max-width: 560px) {
+      .skills-row { grid-template-columns: 1fr; }
+      .skill-cell { border-right: none; border-bottom: 1px solid var(--border); }
+      .skill-cell:last-child { border-bottom: none; }
     }
 
     /* ==========================================================
@@ -945,7 +967,6 @@
     @media (max-width: 860px) {
       .nav-links { gap: 1rem; }
       .focus-grid { grid-template-columns: 1fr; }
-      .skill-group { padding: 1.3rem 0; }
 
       /* Education timeline collapses to a single left-hand spine */
       .edu-wrap::before { left: 5px; transform: none; }
@@ -1167,47 +1188,36 @@
           <div class="rule" aria-hidden="true"></div>
         </div>
 
-        <div class="skills-wrap">
-        <div class="skill-group">
-          <h3>Languages</h3>
-          <div class="pill-row">
-            <span class="pill">C</span><span class="pill">C++</span><span class="pill">Java</span>
-            <span class="pill">SQL</span><span class="pill">Python</span><span class="pill">TypeScript</span>
+        <div class="skills-row">
+          <div class="skill-cell">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="" width="28" height="28" />
+            <h3>Languages</h3>
+            <p>C &middot; C++ &middot; Java<br/>SQL &middot; Python &middot; TypeScript</p>
           </div>
-        </div>
 
-        <div class="skill-group">
-          <h3>Backend</h3>
-          <div class="pill-row">
-            <span class="pill">Spring Boot</span><span class="pill">REST APIs</span>
-            <span class="pill">Authentication</span><span class="pill">Service Design</span>
+          <div class="skill-cell">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="" width="28" height="28" />
+            <h3>Backend</h3>
+            <p>Spring Boot &middot; REST APIs<br/>Authentication<br/>Service Design</p>
           </div>
-        </div>
 
-        <div class="skill-group">
-          <h3>Data &amp; Storage</h3>
-          <div class="pill-row">
-            <span class="pill">MySQL</span><span class="pill">PostgreSQL</span><span class="pill">MongoDB</span>
-            <span class="pill">Redis</span><span class="pill">Write-Ahead Logging</span><span class="pill">LSM Trees</span>
+          <div class="skill-cell">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="" width="28" height="28" />
+            <h3>Data &amp; Storage</h3>
+            <p>PostgreSQL &middot; MySQL<br/>MongoDB &middot; Redis<br/>WAL &middot; LSM Trees</p>
           </div>
-        </div>
 
-        <div class="skill-group">
-          <h3>Systems</h3>
-          <div class="pill-row">
-            <span class="pill">POSIX</span><span class="pill">TCP/IP</span><span class="pill">Concurrency</span>
-            <span class="pill">IPC</span><span class="pill">File Locking</span><span class="pill">Raft</span>
+          <div class="skill-cell">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="" width="28" height="28" />
+            <h3>Systems</h3>
+            <p>POSIX &middot; TCP/IP<br/>Concurrency &middot; IPC<br/>File Locking &middot; Raft</p>
           </div>
-        </div>
 
-        <div class="skill-group">
-          <h3>Infrastructure</h3>
-          <div class="pill-row">
-            <span class="pill">Linux</span><span class="pill">Docker</span><span class="pill">Kubernetes</span>
-            <span class="pill">Jenkins</span><span class="pill">Ansible</span><span class="pill">GitLab CI</span>
-            <span class="pill">GitHub Actions</span>
+          <div class="skill-cell">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="" width="28" height="28" />
+            <h3>Infrastructure</h3>
+            <p>Linux &middot; Docker<br/>Kubernetes &middot; Jenkins<br/>Ansible &middot; CI/CD</p>
           </div>
-        </div>
         </div>
       </section>
 
